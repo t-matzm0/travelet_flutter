@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'spot_detail_screen.dart';
 
 class SpotListScreen extends StatelessWidget {
   final List<Map<String, String>> spots = [
@@ -14,9 +15,22 @@ class SpotListScreen extends StatelessWidget {
       body: ListView.builder(
         itemCount: spots.length,
         itemBuilder: (context, index) {
+          final spot = spots[index];
           return ListTile(
-            title: Text(spots[index]['name']!),
-            subtitle: Text(spots[index]['address']!),
+            title: Text(spot['name']!),
+            subtitle: Text(spot['address']!),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => SpotDetailScreen(
+                        name: spot['name']!,
+                        address: spot['address']!,
+                      ),
+                ),
+              );
+            },
           );
         },
       ),
