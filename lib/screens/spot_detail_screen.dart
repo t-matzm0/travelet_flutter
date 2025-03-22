@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
 import '../models/spot.dart';
 
 class SpotDetailScreen extends StatefulWidget {
@@ -175,7 +173,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     }
   }
 
-void _openMapUrl() async {
+  void _openMapUrl() async {
     final placeId = spot.placeId;
     final url =
         placeId != null
