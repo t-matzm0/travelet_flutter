@@ -1,175 +1,138 @@
+// lib/screens/spot_list_screen.dart
 import 'package:flutter/material.dart';
 import '../models/spot.dart';
+import '../components/spot_action_row.dart';
+import '../components/spot_image.dart';
+import '../constants/spot_styles.dart';
+import '../helpers/responsive_layout.dart';
 import 'spot_detail_screen.dart';
 
 class SpotListScreen extends StatefulWidget {
+  final List<Spot> spots;
+
+  const SpotListScreen({super.key, required this.spots});
+
   @override
-  _SpotListScreenState createState() => _SpotListScreenState();
+  State<SpotListScreen> createState() => _SpotListScreenState();
 }
 
 class _SpotListScreenState extends State<SpotListScreen> {
-  final List<Spot> spots = [
-    Spot(
-      id: '1',
-      name: '浅草寺',
-      address: '東京都台東区浅草',
-      category: '観光地',
-      tags: ['有名', '観光地'],
-      officialUrl: 'https://www.senso-ji.jp/',
-      placeId: 'ChIJ8T1GpMGOGGARDYGSgpooDWw',
-      photos: [
-        'https://upload.wikimedia.org/wikipedia/commons/7/75/Cloudy_Sens%C5%8D-ji.jpg',
-      ],
-      comment: '浅草の代表的な観光スポットです。',
-      likes: 12,
-      likedByMe: true,
-      bookmarkCount: 8,
-      bookmarkedByMe: true,
-    ),
-    Spot(
-      id: '2',
-      name: '東京スカイツリー',
-      address: '東京都墨田区押上',
-      category: 'ランドマーク',
-      tags: ['展望', 'アトラクション'],
-      officialUrl: 'https://www.tokyo-skytree.jp/',
-      placeId: 'ChIJ35ov0dCOGGARKvdDH7NPHX0',
-      photos: [
-        'https://upload.wikimedia.org/wikipedia/commons/8/84/Tokyo_Skytree_2014_%E2%85%A2.jpg',
-        'https://upload.wikimedia.org/wikipedia/commons/0/0f/Tokyo_Skytree._%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC_%2814715623314%29.jpg',
-      ],
-      comment: '東京を一望できる電波塔です。',
-      likes: 25,
-      likedByMe: false,
-      bookmarkCount: 15,
-      bookmarkedByMe: false,
-    ),
-    Spot(
-      id: '3',
-      name: '明治神宮',
-      address: '東京都渋谷区代々木神園町',
-      category: '神社',
-      tags: ['自然', '歴史'],
-      officialUrl: 'https://www.meijijingu.or.jp/',
-      placeId: 'ChIJ5SZMmreMGGARcz8QSTiJyo8',
-      photos: [
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Meiji_Shrine_Main_building_2010.jpg/320px-Meiji_Shrine_Main_building_2010.jpg',
-      ],
-      comment: '東京中心にある静かな神社です。',
-      likes: 18,
-      likedByMe: false,
-      bookmarkCount: 10,
-      bookmarkedByMe: true,
-    ),
-  ];
+  late List<Spot> _spots;
 
-  void toggleLike(int index) {
-    setState(() {
-      final spot = spots[index];
-      final updated = spot.copyWith(
-        likedByMe: !spot.likedByMe,
-        likes: spot.likedByMe ? spot.likes - 1 : spot.likes + 1,
-      );
-      spots[index] = updated;
-    });
-  }
-
-  void toggleBookmark(int index) {
-    setState(() {
-      final spot = spots[index];
-      final updated = spot.copyWith(
-        bookmarkedByMe: !spot.bookmarkedByMe,
-        bookmarkCount:
-            spot.bookmarkedByMe
-                ? spot.bookmarkCount - 1
-                : spot.bookmarkCount + 1,
-      );
-      spots[index] = updated;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _spots = List.from(widget.spots);
   }
 
   @override
   Widget build(BuildContext context) {
+    final maxWidth = ResponsiveLayout.maxContentWidth(context);
+    final padding = SpotStyles.defaultPadding;
+
     return Scaffold(
-      appBar: AppBar(title: Text('スポット一覧')),
-      body: ListView.builder(
-        itemCount: spots.length,
-        itemBuilder: (context, index) {
-          final spot = spots[index];
-          return ListTile(
-            leading:
-                spot.photos.isNotEmpty
-                    ? Image.network(
-                      spot.photos.first,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.cover,
-                      errorBuilder:
-                          (context, error, stackTrace) => Container(
-                            width: 50,
-                            height: 50,
-                            color: Colors.grey.shade300,
-                            alignment: Alignment.center,
-                            child: Icon(
-                              Icons.broken_image,
-                              size: 24,
-                              color: Colors.grey,
+      appBar: AppBar(title: const Text('スポット一覧')),
+      body: Center(
+        child: Container(
+          width: maxWidth,
+          padding: EdgeInsets.all(padding),
+          child: ListView.separated(
+            itemCount: _spots.length,
+            separatorBuilder:
+                (_, __) => const SizedBox(height: SpotStyles.sectionSpacing),
+            itemBuilder: (context, index) {
+              final spot = _spots[index];
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => SpotDetailScreen(spot: spot),
+                    ),
+                  );
+                },
+                child: Card(
+                  elevation: SpotStyles.cardElevation,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      SpotStyles.borderRadius,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(padding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SpotImage(
+                              imageUrl:
+                                  spot.photos.isNotEmpty
+                                      ? spot.photos.first
+                                      : '',
+                              width: SpotStyles.imageThumbnailWidth,
+                              height: SpotStyles.imageThumbnailWidth,
+                              borderRadius: SpotStyles.borderRadius,
                             ),
-                          ),
-                    )
-                    : Icon(Icons.place),
-            title: Text(spot.name),
-            subtitle: Text(spot.address),
-            trailing: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () => toggleLike(index),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        spot.likedByMe
-                            ? Icons.thumb_up
-                            : Icons.thumb_up_outlined,
-                        size: 16,
-                        color: spot.likedByMe ? Colors.redAccent : Colors.grey,
-                      ),
-                      SizedBox(width: 4),
-                      Text('${spot.likes}'),
-                    ],
+                            const SizedBox(width: SpotStyles.iconSpacing),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    spot.name,
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    spot.address,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  SpotActionRow(
+                                    likes: spot.likes,
+                                    likedByMe: spot.likedByMe,
+                                    bookmarkCount: spot.bookmarkCount,
+                                    bookmarkedByMe: spot.bookmarkedByMe,
+                                    onLikeToggle: () {
+                                      setState(() {
+                                        _spots[index] = spot.copyWith(
+                                          likedByMe: !spot.likedByMe,
+                                          likes:
+                                              spot.likedByMe
+                                                  ? spot.likes - 1
+                                                  : spot.likes + 1,
+                                        );
+                                      });
+                                    },
+                                    onBookmarkToggle: () {
+                                      setState(() {
+                                        _spots[index] = spot.copyWith(
+                                          bookmarkedByMe: !spot.bookmarkedByMe,
+                                          bookmarkCount:
+                                              spot.bookmarkedByMe
+                                                  ? spot.bookmarkCount - 1
+                                                  : spot.bookmarkCount + 1,
+                                        );
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                SizedBox(height: 4),
-                GestureDetector(
-                  onTap: () => toggleBookmark(index),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        spot.bookmarkedByMe
-                            ? Icons.bookmark
-                            : Icons.bookmark_border,
-                        size: 16,
-                        color: spot.bookmarkedByMe ? Colors.blue : Colors.grey,
-                      ),
-                      SizedBox(width: 4),
-                      Text('${spot.bookmarkCount}'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SpotDetailScreen(spot: spot),
                 ),
               );
             },
-          );
-        },
+          ),
+        ),
       ),
     );
   }

@@ -1,6 +1,8 @@
+// lib/screens/spot_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/spot.dart';
+import '../constants/spot_styles.dart';
 
 class SpotDetailScreen extends StatefulWidget {
   final Spot spot;
@@ -15,6 +17,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   late Spot spot;
   late PageController _pageController;
   int _currentImageIndex = 0;
+  final Set<int> _failedImageIndices = {};
 
   @override
   void initState() {
@@ -25,7 +28,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
 
   void _openMapUrl() async {
     final url =
-        widget.spot.placeId != null
+        widget.spot.placeId.isNotEmpty
             ? 'https://www.google.com/maps/place/?q=place_id:${widget.spot.placeId}'
             : 'https://www.google.com/maps/search/?q=${Uri.encodeComponent(widget.spot.address)}';
     final uri = Uri.parse(url);
@@ -37,8 +40,8 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   }
 
   void _openOfficialUrl() async {
-    if (widget.spot.officialUrl == null) return;
-    final uri = Uri.parse(widget.spot.officialUrl!);
+    if (widget.spot.officialUrl.isEmpty) return;
+    final uri = Uri.parse(widget.spot.officialUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
@@ -47,6 +50,14 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   }
 
   void _showImageDialog(BuildContext context, int startIndex) {
+    final validPhotos =
+        List.generate(
+          spot.photos.length,
+          (i) => !_failedImageIndices.contains(i) ? spot.photos[i] : null,
+        ).whereType<String>().toList();
+
+    if (validPhotos.isEmpty) return;
+
     _currentImageIndex = startIndex;
     _pageController = PageController(initialPage: startIndex);
 
@@ -61,18 +72,21 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                 insetPadding: const EdgeInsets.all(16),
                 backgroundColor: Colors.transparent,
                 child: Container(
-                  width: screenSize.width * 0.85,
-                  height: screenSize.height * 0.85,
+                  width: screenSize.width * SpotStyles.imagePopupMaxWidthRatio,
+                  height:
+                      screenSize.height * SpotStyles.imagePopupMaxHeightRatio,
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(
+                      SpotStyles.borderRadius,
+                    ),
                   ),
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
                       PageView.builder(
                         controller: _pageController,
-                        itemCount: widget.spot.photos.length,
+                        itemCount: validPhotos.length,
                         onPageChanged:
                             (index) =>
                                 setState(() => _currentImageIndex = index),
@@ -80,16 +94,15 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                           return InteractiveViewer(
                             child: Center(
                               child: Image.network(
-                                widget.spot.photos[index],
+                                validPhotos[index],
                                 fit: BoxFit.contain,
                                 errorBuilder:
                                     (context, error, stackTrace) =>
                                         const Center(
                                           child: Text(
-                                            '画像を表示できません',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
+                                            SpotStyles.placeholderText,
+                                            style:
+                                                SpotStyles.placeholderTextStyle,
                                           ),
                                         ),
                               ),
@@ -97,20 +110,6 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                           );
                         },
                       ),
-                      // 閉じるボタン（右上）
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
-                      ),
-                      // 左スライドボタン（最初の画像以外）
                       if (_currentImageIndex > 0)
                         Positioned(
                           left: 8,
@@ -127,8 +126,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                             },
                           ),
                         ),
-                      // 右スライドボタン（最後の画像以外）
-                      if (_currentImageIndex < widget.spot.photos.length - 1)
+                      if (_currentImageIndex < validPhotos.length - 1)
                         Positioned(
                           right: 8,
                           child: IconButton(
@@ -144,14 +142,23 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                             },
                           ),
                         ),
-                      // ドットインジケータ（下中央）
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                            size: 28,
+                          ),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                      ),
                       Positioned(
                         bottom: 12,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(widget.spot.photos.length, (
-                            index,
-                          ) {
+                          children: List.generate(validPhotos.length, (index) {
                             return Container(
                               width: 8,
                               height: 8,
@@ -179,6 +186,9 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
+    final photos = widget.spot.photos;
+
+    final allImagesFailed = _failedImageIndices.length == photos.length;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.spot.name)),
@@ -187,43 +197,73 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (widget.spot.photos.isNotEmpty)
-              SizedBox(
-                height: 180,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: widget.spot.photos.length,
-                  itemBuilder: (context, index) {
-                    final photoUrl = widget.spot.photos[index];
-                    return GestureDetector(
-                      onTap: () => _showImageDialog(context, index),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            photoUrl,
-                            width: 180,
-                            fit: BoxFit.cover,
-                            errorBuilder:
-                                (context, error, stackTrace) =>
-                                    const Center(child: Text('画像を表示できません')),
+            SizedBox(
+              height: SpotStyles.imageThumbnailWidth,
+              child:
+                  allImagesFailed || photos.isEmpty
+                      ? Container(
+                        width: SpotStyles.imageThumbnailWidth,
+                        height: SpotStyles.imageThumbnailWidth,
+                        color: SpotStyles.placeholderBackgroundColor,
+                        child: const Center(
+                          child: Text(
+                            SpotStyles.placeholderText,
+                            style: SpotStyles.placeholderTextStyle,
                           ),
                         ),
+                      )
+                      : ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: photos.length,
+                        itemBuilder: (context, index) {
+                          final photoUrl = photos[index];
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            child: GestureDetector(
+                              onTap:
+                                  !_failedImageIndices.contains(index)
+                                      ? () => _showImageDialog(context, index)
+                                      : null,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(
+                                  SpotStyles.borderRadius,
+                                ),
+                                child: Image.network(
+                                  photoUrl,
+                                  width: SpotStyles.imageThumbnailWidth,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    _failedImageIndices.add(index);
+                                    return Container(
+                                      width: SpotStyles.imageThumbnailWidth,
+                                      height: SpotStyles.imageThumbnailWidth,
+                                      color:
+                                          SpotStyles.placeholderBackgroundColor,
+                                      child: const Center(
+                                        child: Text(
+                                          SpotStyles.placeholderText,
+                                          style:
+                                              SpotStyles.placeholderTextStyle,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
-              ),
+            ),
             const SizedBox(height: 16),
             Text(widget.spot.name, style: theme.headlineSmall),
             const SizedBox(height: 4),
             Text(widget.spot.address, style: theme.bodyMedium),
             const SizedBox(height: 8),
-            if (widget.spot.comment != null) ...[
+            if (widget.spot.comment.isNotEmpty) ...[
               Text('コメント:', style: theme.titleMedium),
               const SizedBox(height: 4),
-              Text(widget.spot.comment!, style: theme.bodyLarge),
+              Text(widget.spot.comment, style: theme.bodyLarge),
               const SizedBox(height: 8),
             ],
             Row(
@@ -231,7 +271,10 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                 IconButton(
                   icon: Icon(
                     Icons.thumb_up,
-                    color: spot.likedByMe ? Colors.blue : Colors.grey,
+                    color:
+                        spot.likedByMe
+                            ? SpotStyles.likeActiveColor
+                            : SpotStyles.inactiveIconColor,
                   ),
                   onPressed: () {
                     setState(() {
@@ -244,11 +287,14 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                   },
                 ),
                 Text('${spot.likes}'),
-                const SizedBox(width: 16),
+                const SizedBox(width: SpotStyles.iconSpacing),
                 IconButton(
                   icon: Icon(
                     Icons.bookmark,
-                    color: spot.bookmarkedByMe ? Colors.orange : Colors.grey,
+                    color:
+                        spot.bookmarkedByMe
+                            ? SpotStyles.bookmarkActiveColor
+                            : SpotStyles.inactiveIconColor,
                   ),
                   onPressed: () {
                     setState(() {
@@ -275,7 +321,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                   onPressed: _openMapUrl,
                 ),
                 const SizedBox(width: 8),
-                if (widget.spot.officialUrl != null)
+                if (widget.spot.officialUrl.isNotEmpty)
                   TextButton.icon(
                     icon: const Icon(Icons.language),
                     label: const Text('公式サイト'),
