@@ -1,29 +1,16 @@
-// lib/screens/spot_list_screen.dart
 import 'package:flutter/material.dart';
 import '../models/spot.dart';
 import '../components/spot_action_row.dart';
-import '../components/spot_image.dart';
 import '../constants/spot_styles.dart';
 import '../helpers/responsive_layout.dart';
+import '../components/spot_category_badge.dart';
+import '../components/spot_tag_badge.dart';
 import 'spot_detail_screen.dart';
 
-class SpotListScreen extends StatefulWidget {
+class SpotListScreen extends StatelessWidget {
   final List<Spot> spots;
 
   const SpotListScreen({super.key, required this.spots});
-
-  @override
-  State<SpotListScreen> createState() => _SpotListScreenState();
-}
-
-class _SpotListScreenState extends State<SpotListScreen> {
-  late List<Spot> _spots;
-
-  @override
-  void initState() {
-    super.initState();
-    _spots = List.from(widget.spots);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +24,19 @@ class _SpotListScreenState extends State<SpotListScreen> {
           width: maxWidth,
           padding: EdgeInsets.all(padding),
           child: ListView.separated(
-            itemCount: _spots.length,
+            itemCount: spots.length,
             separatorBuilder:
                 (_, __) => const SizedBox(height: SpotStyles.sectionSpacing),
             itemBuilder: (context, index) {
-              final spot = _spots[index];
-              return InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => SpotDetailScreen(spot: spot),
+              final spot = spots[index];
+              return GestureDetector(
+                onTap:
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => SpotDetailScreen(spot: spot),
+                      ),
                     ),
-                  );
-                },
                 child: Card(
                   elevation: SpotStyles.cardElevation,
                   shape: RoundedRectangleBorder(
@@ -66,14 +52,23 @@ class _SpotListScreenState extends State<SpotListScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SpotImage(
-                              imageUrl:
-                                  spot.photos.isNotEmpty
-                                      ? spot.photos.first
-                                      : '',
-                              width: SpotStyles.imageThumbnailWidth,
-                              height: SpotStyles.imageThumbnailWidth,
-                              borderRadius: SpotStyles.borderRadius,
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(
+                                SpotStyles.borderRadius,
+                              ),
+                              child: Image.network(
+                                spot.photos.isNotEmpty ? spot.photos.first : '',
+                                width: SpotStyles.imageThumbnailWidth,
+                                height: SpotStyles.imageThumbnailWidth,
+                                fit: BoxFit.cover,
+                                errorBuilder:
+                                    (_, __, ___) => Container(
+                                      width: SpotStyles.imageThumbnailWidth,
+                                      height: SpotStyles.imageThumbnailWidth,
+                                      color: Colors.grey[300],
+                                      child: const Center(child: Text('画像なし')),
+                                    ),
+                              ),
                             ),
                             const SizedBox(width: SpotStyles.iconSpacing),
                             Expanded(
@@ -92,33 +87,26 @@ class _SpotListScreenState extends State<SpotListScreen> {
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
                                   const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 4,
+                                    runSpacing: 4,
+                                    children: [
+                                      SpotCategoryBadge(
+                                        category: spot.category,
+                                      ),
+                                      ...spot.tags.map(
+                                        (tag) => SpotTagBadge(tag: tag),
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
                                   SpotActionRow(
                                     likes: spot.likes,
                                     likedByMe: spot.likedByMe,
                                     bookmarkCount: spot.bookmarkCount,
                                     bookmarkedByMe: spot.bookmarkedByMe,
-                                    onLikeToggle: () {
-                                      setState(() {
-                                        _spots[index] = spot.copyWith(
-                                          likedByMe: !spot.likedByMe,
-                                          likes:
-                                              spot.likedByMe
-                                                  ? spot.likes - 1
-                                                  : spot.likes + 1,
-                                        );
-                                      });
-                                    },
-                                    onBookmarkToggle: () {
-                                      setState(() {
-                                        _spots[index] = spot.copyWith(
-                                          bookmarkedByMe: !spot.bookmarkedByMe,
-                                          bookmarkCount:
-                                              spot.bookmarkedByMe
-                                                  ? spot.bookmarkCount - 1
-                                                  : spot.bookmarkCount + 1,
-                                        );
-                                      });
-                                    },
+                                    onLikeToggle: null,
+                                    onBookmarkToggle: null,
                                   ),
                                 ],
                               ),

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/spot.dart';
 import '../constants/spot_styles.dart';
+import '../components/spot_tag_badge.dart';
+import '../components/spot_category_badge.dart';
 
 class SpotDetailScreen extends StatefulWidget {
   final Spot spot;
@@ -254,6 +256,19 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                           );
                         },
                       ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                SpotCategoryBadge(category: widget.spot.category),
+                const SizedBox(width: 8),
+                ...widget.spot.tags.map(
+                  (tag) => Padding(
+                    padding: const EdgeInsets.only(right: 4),
+                    child: SpotTagBadge(tag: tag),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 16),
             Text(widget.spot.name, style: theme.headlineSmall),
