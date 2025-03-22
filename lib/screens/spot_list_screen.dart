@@ -8,7 +8,7 @@ class SpotListScreen extends StatefulWidget {
 }
 
 class _SpotListScreenState extends State<SpotListScreen> {
-final List<Spot> spots = [
+  final List<Spot> spots = [
     Spot(
       id: '1',
       name: '浅草寺',
@@ -18,7 +18,7 @@ final List<Spot> spots = [
       officialUrl: 'https://www.senso-ji.jp/',
       placeId: 'ChIJ8T1GpMGOGGARDYGSgpooDWw',
       photos: [
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Sensoji_2022.jpg/320px-Sensoji_2022.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/7/75/Cloudy_Sens%C5%8D-ji.jpg',
       ],
       comment: '浅草の代表的な観光スポットです。',
       likes: 12,
@@ -35,7 +35,8 @@ final List<Spot> spots = [
       officialUrl: 'https://www.tokyo-skytree.jp/',
       placeId: 'ChIJ35ov0dCOGGARKvdDH7NPHX0',
       photos: [
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Tokyo_Skytree_2014_%28cropped%29.jpg/320px-Tokyo_Skytree_2014_%28cropped%29.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/8/84/Tokyo_Skytree_2014_%E2%85%A2.jpg',
+        'https://upload.wikimedia.org/wikipedia/commons/0/0f/Tokyo_Skytree._%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC_%2814715623314%29.jpg',
       ],
       comment: '東京を一望できる電波塔です。',
       likes: 25,
