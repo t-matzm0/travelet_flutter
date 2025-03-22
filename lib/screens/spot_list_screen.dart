@@ -8,7 +8,7 @@ class SpotListScreen extends StatefulWidget {
 }
 
 class _SpotListScreenState extends State<SpotListScreen> {
-  List<Spot> spots = [
+final List<Spot> spots = [
     Spot(
       id: '1',
       name: '浅草寺',
@@ -16,6 +16,7 @@ class _SpotListScreenState extends State<SpotListScreen> {
       category: '観光地',
       tags: ['有名', '観光地'],
       officialUrl: 'https://www.senso-ji.jp/',
+      placeId: 'ChIJ8T1GpMGOGGARDYGSgpooDWw',
       photos: [
         'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Sensoji_2022.jpg/320px-Sensoji_2022.jpg',
       ],
@@ -32,6 +33,7 @@ class _SpotListScreenState extends State<SpotListScreen> {
       category: 'ランドマーク',
       tags: ['展望', 'アトラクション'],
       officialUrl: 'https://www.tokyo-skytree.jp/',
+      placeId: 'ChIJ35ov0dCOGGARKvdDH7NPHX0',
       photos: [
         'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Tokyo_Skytree_2014_%28cropped%29.jpg/320px-Tokyo_Skytree_2014_%28cropped%29.jpg',
       ],
@@ -48,6 +50,7 @@ class _SpotListScreenState extends State<SpotListScreen> {
       category: '神社',
       tags: ['自然', '歴史'],
       officialUrl: 'https://www.meijijingu.or.jp/',
+      placeId: 'ChIJ5SZMmreMGGARcz8QSTiJyo8',
       photos: [
         'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Meiji_Shrine_Main_building_2010.jpg/320px-Meiji_Shrine_Main_building_2010.jpg',
       ],

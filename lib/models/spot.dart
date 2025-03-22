@@ -5,12 +5,13 @@ class Spot {
   final String? category;
   final List<String>? tags;
   final String? officialUrl;
+  final String? placeId;
   final List<String> photos;
   final String? comment;
   final int likes;
-  final bool likedByMe;
   final int bookmarkCount;
   final bool bookmarkedByMe;
+  final bool likedByMe;
 
   Spot({
     required this.id,
@@ -19,12 +20,13 @@ class Spot {
     this.category,
     this.tags,
     this.officialUrl,
+    this.placeId,
     this.photos = const [],
     this.comment,
     this.likes = 0,
-    this.likedByMe = false,
     this.bookmarkCount = 0,
     this.bookmarkedByMe = false,
+    this.likedByMe = false,
   });
 
   factory Spot.fromMap(String id, Map<String, dynamic> data) {
@@ -35,11 +37,13 @@ class Spot {
       category: data['category'],
       tags: List<String>.from(data['tags'] ?? []),
       officialUrl: data['officialUrl'],
+      placeId: data['placeId'],
       photos: List<String>.from(data['photos'] ?? []),
       comment: data['comment'],
       likes: data['likes'] ?? 0,
       bookmarkCount: data['bookmarkCount'] ?? 0,
       bookmarkedByMe: data['bookmarkedByMe'] ?? false,
+      likedByMe: data['likedByMe'] ?? false,
     );
   }
 
@@ -50,11 +54,13 @@ class Spot {
       'category': category,
       'tags': tags ?? [],
       'officialUrl': officialUrl,
+      'placeId': placeId,
       'photos': photos,
       'comment': comment,
       'likes': likes,
       'bookmarkCount': bookmarkCount,
       'bookmarkedByMe': bookmarkedByMe,
+      'likedByMe': likedByMe,
     };
   }
 
@@ -65,6 +71,7 @@ class Spot {
     String? category,
     List<String>? tags,
     String? officialUrl,
+    String? placeId,
     List<String>? photos,
     String? comment,
     int? likes,
@@ -79,6 +86,7 @@ class Spot {
       category: category ?? this.category,
       tags: tags ?? this.tags,
       officialUrl: officialUrl ?? this.officialUrl,
+      placeId: placeId ?? this.placeId,
       photos: photos ?? this.photos,
       comment: comment ?? this.comment,
       likes: likes ?? this.likes,

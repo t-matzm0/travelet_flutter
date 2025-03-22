@@ -106,7 +106,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
             TextButton.icon(
               icon: Icon(Icons.map),
               label: Text('地図で開く'),
-              onPressed: () => _openMapUrl(spot.address),
+              onPressed: _openMapUrl, // ← ✓ 引数なしで渡す
             ),
             SizedBox(height: 16),
             if (spot.officialUrl != null) ...[
@@ -175,25 +175,16 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     }
   }
 
-  Future<void> _openMapUrl(String address) async {
-    Uri url;
+void _openMapUrl() async {
+    final placeId = spot.placeId;
+    final url =
+        placeId != null
+            ? 'https://www.google.com/maps/place/?q=place_id:$placeId'
+            : 'https://www.google.com/maps/search/?q=${Uri.encodeComponent(spot.address)}';
 
-    if (kIsWeb) {
-      url = Uri.parse(
-        'https://www.google.com/maps/search/?q=${Uri.encodeComponent(address)}',
-      );
-    } else if (Platform.isAndroid) {
-      url = Uri.parse('geo:0,0?q=${Uri.encodeComponent(address)}');
-    } else if (Platform.isIOS) {
-      url = Uri.parse(
-        'http://maps.apple.com/?q=${Uri.encodeComponent(address)}',
-      );
-    } else {
-      throw 'このプラットフォームでは地図を開けません';
-    }
-
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
       throw '地図を開けませんでした: $url';
     }
