@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../models/spot.dart';
 import '../components/spot_action_row.dart';
 import '../constants/spot_styles.dart';
-import '../helpers/responsive_layout.dart';
 import '../components/spot_category_badge.dart';
 import '../components/spot_tag_badge.dart';
 import '../widgets/base_scaffold.dart';
