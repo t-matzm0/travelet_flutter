@@ -17,42 +17,45 @@ class SpotListScreen extends StatefulWidget {
 }
 
 class _SpotListScreenState extends State<SpotListScreen> {
-  String _searchQuery = '';
-
-  List<Spot> get _filteredSpots {
-    if (_searchQuery.isEmpty) return widget.spots;
-    final lowerQuery = _searchQuery.toLowerCase();
-    return widget.spots.where((spot) {
-      final inName = spot.name.toLowerCase().contains(lowerQuery);
-      final inCategory = spot.category.toLowerCase().contains(lowerQuery);
-      final inTags = spot.tags.any(
-        (tag) => tag.toLowerCase().contains(lowerQuery),
-      );
-      return inName || inCategory || inTags;
-    }).toList();
-  }
+  String searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
+    final queryWords = searchQuery.toLowerCase().split(RegExp(r'\s+'));
+
+    final filteredSpots =
+        widget.spots.where((spot) {
+          final combined =
+              '${spot.name} ${spot.address} ${spot.category} ${spot.tags.join(' ')}'
+                  .toLowerCase();
+          return queryWords.every((word) => combined.contains(word));
+        }).toList();
+
     return BaseScaffold(
       title: 'スポット一覧',
       child: Column(
         children: [
-          TextField(
-            decoration: const InputDecoration(
-              labelText: '検索（名前・カテゴリ・タグ）',
-              prefixIcon: Icon(Icons.search),
+          Padding(
+            padding: const EdgeInsets.only(bottom: SpotStyles.vSpaceSm),
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: '検索（スペースで複数ワード）',
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value.trim();
+                });
+              },
             ),
-            onChanged: (value) => setState(() => _searchQuery = value),
           ),
-          const SizedBox(height: SpotStyles.vSpaceSm),
           Expanded(
             child: ListView.separated(
-              itemCount: _filteredSpots.length,
+              itemCount: filteredSpots.length,
               separatorBuilder:
                   (_, __) => const SizedBox(height: SpotStyles.sectionSpacing),
               itemBuilder: (context, index) {
-                final spot = _filteredSpots[index];
+                final spot = filteredSpots[index];
                 return GestureDetector(
                   onTap:
                       () => Navigator.push(
