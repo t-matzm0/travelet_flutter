@@ -61,4 +61,31 @@ class Spot {
       bookmarkedByMe: bookmarkedByMe ?? this.bookmarkedByMe,
     );
   }
+
+  factory Spot.fromForm({
+    required String name,
+    required String address,
+    required String category,
+    required List<String> tags,
+    required String officialUrl,
+    required String placeId,
+    required List<String> photos,
+    required String comment,
+  }) {
+    return Spot(
+      id: DateTime.now().millisecondsSinceEpoch.toString(), // 仮ID（ユニーク性確保）
+      name: name,
+      address: address,
+      category: category,
+      tags: tags,
+      officialUrl: officialUrl,
+      placeId: placeId,
+      photos: photos,
+      comment: comment,
+      likes: 0,
+      likedByMe: false,
+      bookmarkCount: 0,
+      bookmarkedByMe: false,
+    );
+  }
 }
