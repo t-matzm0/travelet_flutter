@@ -1,4 +1,3 @@
-// lib/constants/spot_styles.dart
 import 'package:flutter/material.dart';
 
 class SpotStyles {
@@ -54,4 +53,33 @@ class SpotStyles {
   static const double maxContentWidthDesktop = 800.0;
   static const double maxContentWidthWide = 1000.0;
   static const double mobileContentWidthRatio = 0.95;
+
+  // === Badge Style ===
+  static const double badgeFontSize = 12.0;
+  static const FontWeight categoryFontWeight = FontWeight.w500;
+  static const FontWeight tagFontWeight = FontWeight.w400;
+
+  static const Color categoryBadgeColor = Color(0xFFB2DFDB);
+  static const Color categoryTextColor = Color(0xFF00796B);
+  static const Color tagBadgeColor = Color(0xFFE0E0E0);
+  static const Color tagTextColor = Colors.black87;
+
+  static const EdgeInsets badgePadding = EdgeInsets.symmetric(
+    horizontal: 8,
+    vertical: 4,
+  );
+
+  // === Spacing (vertical) ===
+  static const double vSpaceXs = 4.0;
+  static const double vSpaceSm = 8.0;
+  static const double vSpaceMd = 16.0;
+  static const double vSpaceLg = 24.0;
+  static const double vSpaceXl = 32.0;
+
+  // === Spacing (horizontal) ===
+  static const double hSpaceXs = 4.0;
+  static const double hSpaceSm = 8.0;
+  static const double hSpaceMd = 16.0;
+  static const double hSpaceLg = 24.0;
+  static const double hSpaceXl = 32.0;
 }

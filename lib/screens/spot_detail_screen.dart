@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/spot.dart';
 import '../constants/spot_styles.dart';
+import '../constants/spot_texts.dart';
 import '../components/spot_tag_badge.dart';
 import '../components/spot_category_badge.dart';
 
@@ -37,7 +38,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      throw '地図を開けませんでした: $url';
+      throw '${SpotTexts.openMap}に失敗しました: $url';
     }
   }
 
@@ -47,7 +48,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      throw '公式サイトを開けませんでした: ${widget.spot.officialUrl}';
+      throw '${SpotTexts.officialSite}に失敗しました: ${widget.spot.officialUrl}';
     }
   }
 
@@ -71,7 +72,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
             builder: (context, setState) {
               final screenSize = MediaQuery.of(context).size;
               return Dialog(
-                insetPadding: const EdgeInsets.all(16),
+                insetPadding: const EdgeInsets.all(SpotStyles.defaultPadding),
                 backgroundColor: Colors.transparent,
                 child: Container(
                   width: screenSize.width * SpotStyles.imagePopupMaxWidthRatio,
@@ -102,7 +103,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                                     (context, error, stackTrace) =>
                                         const Center(
                                           child: Text(
-                                            SpotStyles.placeholderText,
+                                            SpotTexts.imageError,
                                             style:
                                                 SpotStyles.placeholderTextStyle,
                                           ),
@@ -114,7 +115,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                       ),
                       if (_currentImageIndex > 0)
                         Positioned(
-                          left: 8,
+                          left: SpotStyles.defaultPadding,
                           child: IconButton(
                             icon: const Icon(
                               Icons.arrow_back_ios,
@@ -130,7 +131,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         ),
                       if (_currentImageIndex < validPhotos.length - 1)
                         Positioned(
-                          right: 8,
+                          right: SpotStyles.defaultPadding,
                           child: IconButton(
                             icon: const Icon(
                               Icons.arrow_forward_ios,
@@ -145,8 +146,8 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                           ),
                         ),
                       Positioned(
-                        top: 8,
-                        right: 8,
+                        top: SpotStyles.defaultPadding / 2,
+                        right: SpotStyles.defaultPadding / 2,
                         child: IconButton(
                           icon: const Icon(
                             Icons.close,
@@ -157,7 +158,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         ),
                       ),
                       Positioned(
-                        bottom: 12,
+                        bottom: SpotStyles.defaultPadding,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(validPhotos.length, (index) {
@@ -189,13 +190,12 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final photos = widget.spot.photos;
-
     final allImagesFailed = _failedImageIndices.length == photos.length;
 
     return Scaffold(
       appBar: AppBar(title: Text(widget.spot.name)),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(SpotStyles.defaultPadding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -209,7 +209,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         color: SpotStyles.placeholderBackgroundColor,
                         child: const Center(
                           child: Text(
-                            SpotStyles.placeholderText,
+                            SpotTexts.noImage,
                             style: SpotStyles.placeholderTextStyle,
                           ),
                         ),
@@ -220,7 +220,9 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         itemBuilder: (context, index) {
                           final photoUrl = photos[index];
                           return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: SpotStyles.hSpaceXs,
+                            ),
                             child: GestureDetector(
                               onTap:
                                   !_failedImageIndices.contains(index)
@@ -243,7 +245,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                                           SpotStyles.placeholderBackgroundColor,
                                       child: const Center(
                                         child: Text(
-                                          SpotStyles.placeholderText,
+                                          SpotTexts.noImage,
                                           style:
                                               SpotStyles.placeholderTextStyle,
                                         ),
@@ -257,29 +259,29 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         },
                       ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: SpotStyles.vSpaceMd),
             Row(
               children: [
                 SpotCategoryBadge(category: widget.spot.category),
-                const SizedBox(width: 8),
+                const SizedBox(width: SpotStyles.hSpaceSm),
                 ...widget.spot.tags.map(
                   (tag) => Padding(
-                    padding: const EdgeInsets.only(right: 4),
+                    padding: const EdgeInsets.only(right: SpotStyles.hSpaceXs),
                     child: SpotTagBadge(tag: tag),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: SpotStyles.vSpaceMd),
             Text(widget.spot.name, style: theme.headlineSmall),
-            const SizedBox(height: 4),
+            const SizedBox(height: SpotStyles.vSpaceXs),
             Text(widget.spot.address, style: theme.bodyMedium),
-            const SizedBox(height: 8),
+            const SizedBox(height: SpotStyles.vSpaceSm),
             if (widget.spot.comment.isNotEmpty) ...[
-              Text('コメント:', style: theme.titleMedium),
-              const SizedBox(height: 4),
+              Text(SpotTexts.comment, style: theme.titleMedium),
+              const SizedBox(height: SpotStyles.vSpaceXs),
               Text(widget.spot.comment, style: theme.bodyLarge),
-              const SizedBox(height: 8),
+              const SizedBox(height: SpotStyles.vSpaceSm),
             ],
             Row(
               children: [
@@ -327,19 +329,19 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                 Text('${spot.bookmarkCount}'),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: SpotStyles.vSpaceMd),
             Row(
               children: [
                 TextButton.icon(
                   icon: const Icon(Icons.map),
-                  label: const Text('地図で開く'),
+                  label: const Text(SpotTexts.openMap),
                   onPressed: _openMapUrl,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: SpotStyles.hSpaceSm),
                 if (widget.spot.officialUrl.isNotEmpty)
                   TextButton.icon(
                     icon: const Icon(Icons.language),
-                    label: const Text('公式サイト'),
+                    label: const Text(SpotTexts.officialSite),
                     onPressed: _openOfficialUrl,
                   ),
               ],

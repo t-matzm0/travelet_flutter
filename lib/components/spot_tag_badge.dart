@@ -1,4 +1,3 @@
-// lib/components/spot_tag_badge.dart
 import 'package:flutter/material.dart';
 import '../constants/spot_styles.dart';
 
@@ -10,17 +9,17 @@ class SpotTagBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: SpotStyles.badgePadding,
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: SpotStyles.tagBadgeColor,
         borderRadius: BorderRadius.circular(SpotStyles.borderRadius),
       ),
       child: Text(
         tag,
-        style: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          color: Colors.black87,
+        style: TextStyle(
+          fontSize: SpotStyles.badgeFontSize,
+          fontWeight: SpotStyles.tagFontWeight,
+          color: SpotStyles.tagTextColor,
         ),
       ),
     );

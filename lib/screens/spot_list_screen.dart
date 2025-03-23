@@ -15,14 +15,13 @@ class SpotListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final maxWidth = ResponsiveLayout.maxContentWidth(context);
-    final padding = SpotStyles.defaultPadding;
 
     return Scaffold(
       appBar: AppBar(title: const Text('スポット一覧')),
       body: Center(
         child: Container(
           width: maxWidth,
-          padding: EdgeInsets.all(padding),
+          padding: const EdgeInsets.all(SpotStyles.defaultPadding),
           child: ListView.separated(
             itemCount: spots.length,
             separatorBuilder:
@@ -45,7 +44,7 @@ class SpotListScreen extends StatelessWidget {
                     ),
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(padding),
+                    padding: const EdgeInsets.all(SpotStyles.defaultPadding),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -65,8 +64,15 @@ class SpotListScreen extends StatelessWidget {
                                     (_, __, ___) => Container(
                                       width: SpotStyles.imageThumbnailWidth,
                                       height: SpotStyles.imageThumbnailWidth,
-                                      color: Colors.grey[300],
-                                      child: const Center(child: Text('画像なし')),
+                                      color:
+                                          SpotStyles.placeholderBackgroundColor,
+                                      child: const Center(
+                                        child: Text(
+                                          SpotStyles.placeholderText,
+                                          style:
+                                              SpotStyles.placeholderTextStyle,
+                                        ),
+                                      ),
                                     ),
                               ),
                             ),
@@ -80,16 +86,16 @@ class SpotListScreen extends StatelessWidget {
                                     style:
                                         Theme.of(context).textTheme.titleMedium,
                                   ),
-                                  const SizedBox(height: 4),
+                                  const SizedBox(height: SpotStyles.vSpaceXs),
                                   Text(
                                     spot.address,
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: SpotStyles.vSpaceSm),
                                   Wrap(
-                                    spacing: 4,
-                                    runSpacing: 4,
+                                    spacing: SpotStyles.hSpaceXs,
+                                    runSpacing: SpotStyles.vSpaceXs,
                                     children: [
                                       SpotCategoryBadge(
                                         category: spot.category,
@@ -99,7 +105,7 @@ class SpotListScreen extends StatelessWidget {
                                       ),
                                     ],
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: SpotStyles.vSpaceSm),
                                   SpotActionRow(
                                     likes: spot.likes,
                                     likedByMe: spot.likedByMe,
