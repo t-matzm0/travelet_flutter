@@ -5,6 +5,7 @@ import '../constants/spot_styles.dart';
 import '../helpers/responsive_layout.dart';
 import '../components/spot_category_badge.dart';
 import '../components/spot_tag_badge.dart';
+import '../widgets/base_scaffold.dart';
 import 'spot_detail_screen.dart';
 
 class SpotListScreen extends StatelessWidget {
@@ -14,119 +15,103 @@ class SpotListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final maxWidth = ResponsiveLayout.maxContentWidth(context);
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('スポット一覧')),
-      body: Center(
-        child: Container(
-          width: maxWidth,
-          padding: const EdgeInsets.all(SpotStyles.defaultPadding),
-          child: ListView.separated(
-            itemCount: spots.length,
-            separatorBuilder:
-                (_, __) => const SizedBox(height: SpotStyles.sectionSpacing),
-            itemBuilder: (context, index) {
-              final spot = spots[index];
-              return GestureDetector(
-                onTap:
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => SpotDetailScreen(spot: spot),
-                      ),
-                    ),
-                child: Card(
-                  elevation: SpotStyles.cardElevation,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      SpotStyles.borderRadius,
-                    ),
+    return BaseScaffold(
+      title: 'スポット一覧',
+      child: ListView.separated(
+        itemCount: spots.length,
+        separatorBuilder:
+            (_, __) => const SizedBox(height: SpotStyles.sectionSpacing),
+        itemBuilder: (context, index) {
+          final spot = spots[index];
+          return GestureDetector(
+            onTap:
+                () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => SpotDetailScreen(spot: spot),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(SpotStyles.defaultPadding),
-                    child: Column(
+                ),
+            child: Card(
+              elevation: SpotStyles.cardElevation,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(SpotStyles.borderRadius),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(SpotStyles.defaultPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(
-                                SpotStyles.borderRadius,
-                              ),
-                              child: Image.network(
-                                spot.photos.isNotEmpty ? spot.photos.first : '',
-                                width: SpotStyles.imageThumbnailWidth,
-                                height: SpotStyles.imageThumbnailWidth,
-                                fit: BoxFit.cover,
-                                errorBuilder:
-                                    (_, __, ___) => Container(
-                                      width: SpotStyles.imageThumbnailWidth,
-                                      height: SpotStyles.imageThumbnailWidth,
-                                      color:
-                                          SpotStyles.placeholderBackgroundColor,
-                                      child: const Center(
-                                        child: Text(
-                                          SpotStyles.placeholderText,
-                                          style:
-                                              SpotStyles.placeholderTextStyle,
-                                        ),
-                                      ),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                            SpotStyles.borderRadius,
+                          ),
+                          child: Image.network(
+                            spot.photos.isNotEmpty ? spot.photos.first : '',
+                            width: SpotStyles.imageThumbnailWidth,
+                            height: SpotStyles.imageThumbnailWidth,
+                            fit: BoxFit.cover,
+                            errorBuilder:
+                                (_, __, ___) => Container(
+                                  width: SpotStyles.imageThumbnailWidth,
+                                  height: SpotStyles.imageThumbnailWidth,
+                                  color: SpotStyles.placeholderBackgroundColor,
+                                  child: const Center(
+                                    child: Text(
+                                      SpotStyles.placeholderText,
+                                      style: SpotStyles.placeholderTextStyle,
                                     ),
+                                  ),
+                                ),
+                          ),
+                        ),
+                        const SizedBox(width: SpotStyles.iconSpacing),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                spot.name,
+                                style: Theme.of(context).textTheme.titleMedium,
                               ),
-                            ),
-                            const SizedBox(width: SpotStyles.iconSpacing),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              const SizedBox(height: SpotStyles.vSpaceXs),
+                              Text(
+                                spot.address,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              const SizedBox(height: SpotStyles.vSpaceSm),
+                              Wrap(
+                                spacing: SpotStyles.hSpaceXs,
+                                runSpacing: SpotStyles.vSpaceXs,
                                 children: [
-                                  Text(
-                                    spot.name,
-                                    style:
-                                        Theme.of(context).textTheme.titleMedium,
-                                  ),
-                                  const SizedBox(height: SpotStyles.vSpaceXs),
-                                  Text(
-                                    spot.address,
-                                    style:
-                                        Theme.of(context).textTheme.bodySmall,
-                                  ),
-                                  const SizedBox(height: SpotStyles.vSpaceSm),
-                                  Wrap(
-                                    spacing: SpotStyles.hSpaceXs,
-                                    runSpacing: SpotStyles.vSpaceXs,
-                                    children: [
-                                      SpotCategoryBadge(
-                                        category: spot.category,
-                                      ),
-                                      ...spot.tags.map(
-                                        (tag) => SpotTagBadge(tag: tag),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: SpotStyles.vSpaceSm),
-                                  SpotActionRow(
-                                    likes: spot.likes,
-                                    likedByMe: spot.likedByMe,
-                                    bookmarkCount: spot.bookmarkCount,
-                                    bookmarkedByMe: spot.bookmarkedByMe,
-                                    onLikeToggle: null,
-                                    onBookmarkToggle: null,
+                                  SpotCategoryBadge(category: spot.category),
+                                  ...spot.tags.map(
+                                    (tag) => SpotTagBadge(tag: tag),
                                   ),
                                 ],
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: SpotStyles.vSpaceSm),
+                              SpotActionRow(
+                                likes: spot.likes,
+                                likedByMe: spot.likedByMe,
+                                bookmarkCount: spot.bookmarkCount,
+                                bookmarkedByMe: spot.bookmarkedByMe,
+                                onLikeToggle: null,
+                                onBookmarkToggle: null,
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -6,6 +6,7 @@ import '../constants/spot_styles.dart';
 import '../constants/spot_texts.dart';
 import '../components/spot_tag_badge.dart';
 import '../components/spot_category_badge.dart';
+import '../widgets/base_scaffold.dart';
 
 class SpotDetailScreen extends StatefulWidget {
   final Spot spot;
@@ -192,10 +193,9 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     final photos = widget.spot.photos;
     final allImagesFailed = _failedImageIndices.length == photos.length;
 
-    return Scaffold(
-      appBar: AppBar(title: Text(widget.spot.name)),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(SpotStyles.defaultPadding),
+    return BaseScaffold(
+      title: widget.spot.name,
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
