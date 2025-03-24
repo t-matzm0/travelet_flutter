@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'models/spot.dart';
+import 'models/itinerary.dart';
+import 'models/itinerary_point.dart';
+import 'models/itinerary_segment.dart';
+import 'models/transport_mode.dart';
 import 'screens/home_screen.dart';
 
 void main() {
@@ -14,12 +18,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Travel App',
       theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
-      home: HomeScreen(spots: sampleSpots), // 仮データを渡す
+      home: HomeScreen(spots: sampleSpots, itineraries: sampleItineraries),
     );
   }
 }
 
-// 仮のサンプルデータ（開発用）
+// サンプルスポット
 final List<Spot> sampleSpots = [
   Spot(
     id: '1',
@@ -37,6 +41,7 @@ final List<Spot> sampleSpots = [
     likedByMe: true,
     bookmarkCount: 8,
     bookmarkedByMe: true,
+    estimatedDurationMinutes: 60,
   ),
   Spot(
     id: '2',
@@ -55,6 +60,7 @@ final List<Spot> sampleSpots = [
     likedByMe: false,
     bookmarkCount: 15,
     bookmarkedByMe: false,
+    estimatedDurationMinutes: 90,
   ),
   Spot(
     id: '3',
@@ -72,5 +78,23 @@ final List<Spot> sampleSpots = [
     likedByMe: false,
     bookmarkCount: 10,
     bookmarkedByMe: true,
+  ),
+];
+
+final List<Itinerary> sampleItineraries = [
+  Itinerary(
+    title: '東京観光1日モデルプラン',
+    description: '浅草からスカイツリー、明治神宮を巡る定番コース',
+    tags: ['東京', '定番', '歴史'],
+    isPublic: true,
+    points: [
+      ItineraryPoint(spot: sampleSpots[0]),
+      ItineraryPoint(spot: sampleSpots[1]),
+      ItineraryPoint(spot: sampleSpots[2], isHotel: true),
+    ],
+    segments: [
+      ItinerarySegment(mode: TransportMode.train, note: '東京メトロ銀座線'),
+      ItinerarySegment(mode: TransportMode.walk),
+    ],
   ),
 ];

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/spot.dart';
 import '../constants/spot_styles.dart';
-import '../constants/spot_texts.dart';
+import '../constants/ui_texts.dart';
 import '../components/spot_tag_badge.dart';
 import '../components/spot_category_badge.dart';
 import '../widgets/base_scaffold.dart';
@@ -39,7 +39,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      throw '${SpotTexts.openMap}に失敗しました: $url';
+      throw '${UITexts.openMap}に失敗しました: $url';
     }
   }
 
@@ -49,7 +49,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     } else {
-      throw '${SpotTexts.officialSite}に失敗しました: ${widget.spot.officialUrl}';
+      throw '${UITexts.officialSite}に失敗しました: ${widget.spot.officialUrl}';
     }
   }
 
@@ -104,7 +104,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                                     (context, error, stackTrace) =>
                                         const Center(
                                           child: Text(
-                                            SpotTexts.imageError,
+                                            UITexts.imageError,
                                             style:
                                                 SpotStyles.placeholderTextStyle,
                                           ),
@@ -209,7 +209,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                         color: SpotStyles.placeholderBackgroundColor,
                         child: const Center(
                           child: Text(
-                            SpotTexts.noImage,
+                            UITexts.noImage,
                             style: SpotStyles.placeholderTextStyle,
                           ),
                         ),
@@ -245,7 +245,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                                           SpotStyles.placeholderBackgroundColor,
                                       child: const Center(
                                         child: Text(
-                                          SpotTexts.noImage,
+                                          UITexts.noImage,
                                           style:
                                               SpotStyles.placeholderTextStyle,
                                         ),
@@ -278,7 +278,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
             Text(widget.spot.address, style: theme.bodyMedium),
             const SizedBox(height: SpotStyles.vSpaceSm),
             if (widget.spot.comment.isNotEmpty) ...[
-              Text(SpotTexts.comment, style: theme.titleMedium),
+              Text(UITexts.comment, style: theme.titleMedium),
               const SizedBox(height: SpotStyles.vSpaceXs),
               Text(widget.spot.comment, style: theme.bodyLarge),
               const SizedBox(height: SpotStyles.vSpaceSm),
@@ -334,14 +334,14 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
               children: [
                 TextButton.icon(
                   icon: const Icon(Icons.map),
-                  label: const Text(SpotTexts.openMap),
+                  label: const Text(UITexts.openMap),
                   onPressed: _openMapUrl,
                 ),
                 const SizedBox(width: SpotStyles.hSpaceSm),
                 if (widget.spot.officialUrl.isNotEmpty)
                   TextButton.icon(
                     icon: const Icon(Icons.language),
-                    label: const Text(SpotTexts.officialSite),
+                    label: const Text(UITexts.officialSite),
                     onPressed: _openOfficialUrl,
                   ),
               ],

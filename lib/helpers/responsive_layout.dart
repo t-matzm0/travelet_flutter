@@ -41,4 +41,8 @@ class ResponsiveLayout {
       return SpotStyles.maxContentWidthDesktop;
     return width * SpotStyles.mobileContentWidthRatio;
   }
+
+  static bool isWide(BuildContext context) {
+    return MediaQuery.of(context).size.width >= 600;
+  }
 }
