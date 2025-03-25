@@ -1,4 +1,3 @@
-// lib/screens/spot_detail_screen.dart
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/spot.dart';
@@ -276,6 +275,19 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
             Text(widget.spot.name, style: theme.headlineSmall),
             const SizedBox(height: SpotStyles.vSpaceXs),
             Text(widget.spot.address, style: theme.bodyMedium),
+            if (widget.spot.stayDurationMinutes != null) ...[
+              const SizedBox(height: SpotStyles.vSpaceXs),
+              Row(
+                children: [
+                  const Icon(Icons.access_time, size: 16, color: Colors.grey),
+                  const SizedBox(width: 4),
+                  Text(
+                    '${UITexts.stayDurationLabel}${widget.spot.stayDurationMinutes}分',
+                    style: theme.bodySmall?.copyWith(color: Colors.grey),
+                  ),
+                ],
+              ),
+            ],
             const SizedBox(height: SpotStyles.vSpaceSm),
             if (widget.spot.comment.isNotEmpty) ...[
               Text(UITexts.comment, style: theme.titleMedium),

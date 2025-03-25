@@ -23,7 +23,6 @@ ItineraryPoint _$ItineraryPointFromJson(Map<String, dynamic> json) {
 mixin _$ItineraryPoint {
   Spot get spot => throw _privateConstructorUsedError;
   bool get isHotel => throw _privateConstructorUsedError;
-  int? get estimatedDurationMinutes => throw _privateConstructorUsedError;
 
   /// Serializes this ItineraryPoint to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,7 +41,7 @@ abstract class $ItineraryPointCopyWith<$Res> {
     $Res Function(ItineraryPoint) then,
   ) = _$ItineraryPointCopyWithImpl<$Res, ItineraryPoint>;
   @useResult
-  $Res call({Spot spot, bool isHotel, int? estimatedDurationMinutes});
+  $Res call({Spot spot, bool isHotel});
 
   $SpotCopyWith<$Res> get spot;
 }
@@ -61,11 +60,7 @@ class _$ItineraryPointCopyWithImpl<$Res, $Val extends ItineraryPoint>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? spot = null,
-    Object? isHotel = null,
-    Object? estimatedDurationMinutes = freezed,
-  }) {
+  $Res call({Object? spot = null, Object? isHotel = null}) {
     return _then(
       _value.copyWith(
             spot:
@@ -78,11 +73,6 @@ class _$ItineraryPointCopyWithImpl<$Res, $Val extends ItineraryPoint>
                     ? _value.isHotel
                     : isHotel // ignore: cast_nullable_to_non_nullable
                         as bool,
-            estimatedDurationMinutes:
-                freezed == estimatedDurationMinutes
-                    ? _value.estimatedDurationMinutes
-                    : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
-                        as int?,
           )
           as $Val,
     );
@@ -108,7 +98,7 @@ abstract class _$$ItineraryPointImplCopyWith<$Res>
   ) = __$$ItineraryPointImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Spot spot, bool isHotel, int? estimatedDurationMinutes});
+  $Res call({Spot spot, bool isHotel});
 
   @override
   $SpotCopyWith<$Res> get spot;
@@ -127,11 +117,7 @@ class __$$ItineraryPointImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({
-    Object? spot = null,
-    Object? isHotel = null,
-    Object? estimatedDurationMinutes = freezed,
-  }) {
+  $Res call({Object? spot = null, Object? isHotel = null}) {
     return _then(
       _$ItineraryPointImpl(
         spot:
@@ -144,11 +130,6 @@ class __$$ItineraryPointImplCopyWithImpl<$Res>
                 ? _value.isHotel
                 : isHotel // ignore: cast_nullable_to_non_nullable
                     as bool,
-        estimatedDurationMinutes:
-            freezed == estimatedDurationMinutes
-                ? _value.estimatedDurationMinutes
-                : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
-                    as int?,
       ),
     );
   }
@@ -157,11 +138,7 @@ class __$$ItineraryPointImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ItineraryPointImpl implements _ItineraryPoint {
-  const _$ItineraryPointImpl({
-    required this.spot,
-    this.isHotel = false,
-    this.estimatedDurationMinutes,
-  });
+  const _$ItineraryPointImpl({required this.spot, this.isHotel = false});
 
   factory _$ItineraryPointImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItineraryPointImplFromJson(json);
@@ -171,12 +148,10 @@ class _$ItineraryPointImpl implements _ItineraryPoint {
   @override
   @JsonKey()
   final bool isHotel;
-  @override
-  final int? estimatedDurationMinutes;
 
   @override
   String toString() {
-    return 'ItineraryPoint(spot: $spot, isHotel: $isHotel, estimatedDurationMinutes: $estimatedDurationMinutes)';
+    return 'ItineraryPoint(spot: $spot, isHotel: $isHotel)';
   }
 
   @override
@@ -185,18 +160,12 @@ class _$ItineraryPointImpl implements _ItineraryPoint {
         (other.runtimeType == runtimeType &&
             other is _$ItineraryPointImpl &&
             (identical(other.spot, spot) || other.spot == spot) &&
-            (identical(other.isHotel, isHotel) || other.isHotel == isHotel) &&
-            (identical(
-                  other.estimatedDurationMinutes,
-                  estimatedDurationMinutes,
-                ) ||
-                other.estimatedDurationMinutes == estimatedDurationMinutes));
+            (identical(other.isHotel, isHotel) || other.isHotel == isHotel));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, spot, isHotel, estimatedDurationMinutes);
+  int get hashCode => Object.hash(runtimeType, spot, isHotel);
 
   /// Create a copy of ItineraryPoint
   /// with the given fields replaced by the non-null parameter values.
@@ -219,7 +188,6 @@ abstract class _ItineraryPoint implements ItineraryPoint {
   const factory _ItineraryPoint({
     required final Spot spot,
     final bool isHotel,
-    final int? estimatedDurationMinutes,
   }) = _$ItineraryPointImpl;
 
   factory _ItineraryPoint.fromJson(Map<String, dynamic> json) =
@@ -229,8 +197,6 @@ abstract class _ItineraryPoint implements ItineraryPoint {
   Spot get spot;
   @override
   bool get isHotel;
-  @override
-  int? get estimatedDurationMinutes;
 
   /// Create a copy of ItineraryPoint
   /// with the given fields replaced by the non-null parameter values.

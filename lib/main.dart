@@ -41,7 +41,7 @@ final List<Spot> sampleSpots = [
     likedByMe: true,
     bookmarkCount: 8,
     bookmarkedByMe: true,
-    estimatedDurationMinutes: 60,
+    stayDurationMinutes: 60,
   ),
   Spot(
     id: '2',
@@ -60,7 +60,7 @@ final List<Spot> sampleSpots = [
     likedByMe: false,
     bookmarkCount: 15,
     bookmarkedByMe: false,
-    estimatedDurationMinutes: 90,
+    stayDurationMinutes: 90,
   ),
   Spot(
     id: '3',

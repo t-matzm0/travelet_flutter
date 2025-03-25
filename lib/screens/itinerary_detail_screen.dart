@@ -198,13 +198,27 @@ class ItineraryDetailScreen extends StatelessWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(spot.address),
-                      if (spot.estimatedDurationMinutes != null)
-                        Text(
-                          '${UITexts.stayDurationLabel}${spot.estimatedDurationMinutes}分',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey,
+                      Text(point.spot.address),
+                      if (point.spot.stayDurationMinutes != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Icon(
+                                Icons.access_time,
+                                size: 16,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${UITexts.stayDurationLabel}${point.spot.stayDurationMinutes}分',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                     ],

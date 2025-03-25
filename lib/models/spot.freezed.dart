@@ -34,7 +34,7 @@ mixin _$Spot {
   bool get likedByMe => throw _privateConstructorUsedError;
   int get bookmarkCount => throw _privateConstructorUsedError;
   bool get bookmarkedByMe => throw _privateConstructorUsedError;
-  int? get estimatedDurationMinutes => throw _privateConstructorUsedError;
+  int? get stayDurationMinutes => throw _privateConstructorUsedError;
 
   /// Serializes this Spot to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -64,7 +64,7 @@ abstract class $SpotCopyWith<$Res> {
     bool likedByMe,
     int bookmarkCount,
     bool bookmarkedByMe,
-    int? estimatedDurationMinutes,
+    int? stayDurationMinutes,
   });
 }
 
@@ -96,7 +96,7 @@ class _$SpotCopyWithImpl<$Res, $Val extends Spot>
     Object? likedByMe = null,
     Object? bookmarkCount = null,
     Object? bookmarkedByMe = null,
-    Object? estimatedDurationMinutes = freezed,
+    Object? stayDurationMinutes = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -165,10 +165,10 @@ class _$SpotCopyWithImpl<$Res, $Val extends Spot>
                     ? _value.bookmarkedByMe
                     : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
                         as bool,
-            estimatedDurationMinutes:
-                freezed == estimatedDurationMinutes
-                    ? _value.estimatedDurationMinutes
-                    : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
+            stayDurationMinutes:
+                freezed == stayDurationMinutes
+                    ? _value.stayDurationMinutes
+                    : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
                         as int?,
           )
           as $Val,
@@ -198,7 +198,7 @@ abstract class _$$SpotImplCopyWith<$Res> implements $SpotCopyWith<$Res> {
     bool likedByMe,
     int bookmarkCount,
     bool bookmarkedByMe,
-    int? estimatedDurationMinutes,
+    int? stayDurationMinutes,
   });
 }
 
@@ -227,7 +227,7 @@ class __$$SpotImplCopyWithImpl<$Res>
     Object? likedByMe = null,
     Object? bookmarkCount = null,
     Object? bookmarkedByMe = null,
-    Object? estimatedDurationMinutes = freezed,
+    Object? stayDurationMinutes = freezed,
   }) {
     return _then(
       _$SpotImpl(
@@ -296,10 +296,10 @@ class __$$SpotImplCopyWithImpl<$Res>
                 ? _value.bookmarkedByMe
                 : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
                     as bool,
-        estimatedDurationMinutes:
-            freezed == estimatedDurationMinutes
-                ? _value.estimatedDurationMinutes
-                : estimatedDurationMinutes // ignore: cast_nullable_to_non_nullable
+        stayDurationMinutes:
+            freezed == stayDurationMinutes
+                ? _value.stayDurationMinutes
+                : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
                     as int?,
       ),
     );
@@ -323,7 +323,7 @@ class _$SpotImpl implements _Spot {
     required this.likedByMe,
     required this.bookmarkCount,
     required this.bookmarkedByMe,
-    this.estimatedDurationMinutes,
+    this.stayDurationMinutes,
   }) : _tags = tags,
        _photos = photos;
 
@@ -369,11 +369,11 @@ class _$SpotImpl implements _Spot {
   @override
   final bool bookmarkedByMe;
   @override
-  final int? estimatedDurationMinutes;
+  final int? stayDurationMinutes;
 
   @override
   String toString() {
-    return 'Spot(id: $id, name: $name, address: $address, category: $category, tags: $tags, officialUrl: $officialUrl, placeId: $placeId, photos: $photos, comment: $comment, likes: $likes, likedByMe: $likedByMe, bookmarkCount: $bookmarkCount, bookmarkedByMe: $bookmarkedByMe, estimatedDurationMinutes: $estimatedDurationMinutes)';
+    return 'Spot(id: $id, name: $name, address: $address, category: $category, tags: $tags, officialUrl: $officialUrl, placeId: $placeId, photos: $photos, comment: $comment, likes: $likes, likedByMe: $likedByMe, bookmarkCount: $bookmarkCount, bookmarkedByMe: $bookmarkedByMe, stayDurationMinutes: $stayDurationMinutes)';
   }
 
   @override
@@ -399,11 +399,8 @@ class _$SpotImpl implements _Spot {
                 other.bookmarkCount == bookmarkCount) &&
             (identical(other.bookmarkedByMe, bookmarkedByMe) ||
                 other.bookmarkedByMe == bookmarkedByMe) &&
-            (identical(
-                  other.estimatedDurationMinutes,
-                  estimatedDurationMinutes,
-                ) ||
-                other.estimatedDurationMinutes == estimatedDurationMinutes));
+            (identical(other.stayDurationMinutes, stayDurationMinutes) ||
+                other.stayDurationMinutes == stayDurationMinutes));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -423,7 +420,7 @@ class _$SpotImpl implements _Spot {
     likedByMe,
     bookmarkCount,
     bookmarkedByMe,
-    estimatedDurationMinutes,
+    stayDurationMinutes,
   );
 
   /// Create a copy of Spot
@@ -455,7 +452,7 @@ abstract class _Spot implements Spot {
     required final bool likedByMe,
     required final int bookmarkCount,
     required final bool bookmarkedByMe,
-    final int? estimatedDurationMinutes,
+    final int? stayDurationMinutes,
   }) = _$SpotImpl;
 
   factory _Spot.fromJson(Map<String, dynamic> json) = _$SpotImpl.fromJson;
@@ -487,7 +484,7 @@ abstract class _Spot implements Spot {
   @override
   bool get bookmarkedByMe;
   @override
-  int? get estimatedDurationMinutes;
+  int? get stayDurationMinutes;
 
   /// Create a copy of Spot
   /// with the given fields replaced by the non-null parameter values.

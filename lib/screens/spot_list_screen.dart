@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/spot.dart';
 import '../components/spot_action_row.dart';
 import '../constants/spot_styles.dart';
+import '../constants/ui_texts.dart';
 import '../components/spot_category_badge.dart';
 import '../components/spot_tag_badge.dart';
 import '../widgets/base_scaffold.dart';
@@ -125,6 +126,30 @@ class _SpotListScreenState extends State<SpotListScreen> {
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
+                                    if (spot.stayDurationMinutes != null)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: SpotStyles.vSpaceXs,
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.access_time,
+                                              size: 16,
+                                              color: Colors.grey,
+                                            ),
+                                            const SizedBox(width: 4),
+                                            Text(
+                                              '${UITexts.stayDurationLabel}${spot.stayDurationMinutes}分',
+                                              style: Theme.of(
+                                                context,
+                                              ).textTheme.bodySmall?.copyWith(
+                                                color: Colors.grey,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
                                     const SizedBox(height: SpotStyles.vSpaceSm),
                                     Wrap(
                                       spacing: SpotStyles.hSpaceXs,
@@ -133,9 +158,11 @@ class _SpotListScreenState extends State<SpotListScreen> {
                                         SpotCategoryBadge(
                                           category: spot.category,
                                         ),
-                                        ...spot.tags.map(
-                                          (tag) => SpotTagBadge(tag: tag),
-                                        ),
+                                        ...spot.tags
+                                            .map(
+                                              (tag) => SpotTagBadge(tag: tag),
+                                            )
+                                            .toList(),
                                       ],
                                     ),
                                     const SizedBox(height: SpotStyles.vSpaceSm),

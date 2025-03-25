@@ -20,7 +20,7 @@ _$SpotImpl _$$SpotImplFromJson(Map<String, dynamic> json) => _$SpotImpl(
   likedByMe: json['likedByMe'] as bool,
   bookmarkCount: (json['bookmarkCount'] as num).toInt(),
   bookmarkedByMe: json['bookmarkedByMe'] as bool,
-  estimatedDurationMinutes: (json['estimatedDurationMinutes'] as num?)?.toInt(),
+  stayDurationMinutes: (json['stayDurationMinutes'] as num?)?.toInt(),
 );
 
 Map<String, dynamic> _$$SpotImplToJson(_$SpotImpl instance) =>
@@ -38,5 +38,5 @@ Map<String, dynamic> _$$SpotImplToJson(_$SpotImpl instance) =>
       'likedByMe': instance.likedByMe,
       'bookmarkCount': instance.bookmarkCount,
       'bookmarkedByMe': instance.bookmarkedByMe,
-      'estimatedDurationMinutes': instance.estimatedDurationMinutes,
+      'stayDurationMinutes': instance.stayDurationMinutes,
     };

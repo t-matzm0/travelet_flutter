@@ -20,7 +20,7 @@ class Spot with _$Spot {
     required bool likedByMe,
     required int bookmarkCount,
     required bool bookmarkedByMe,
-    int? estimatedDurationMinutes,
+    int? stayDurationMinutes,
   }) = _Spot;
 
   factory Spot.fromJson(Map<String, dynamic> json) => _$SpotFromJson(json);
