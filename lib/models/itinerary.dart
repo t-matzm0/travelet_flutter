@@ -18,6 +18,7 @@ class Itinerary with _$Itinerary {
     @Default(false) bool likedByMe,
     @Default(0) int bookmarkCount,
     @Default(false) bool bookmarkedByMe,
+    String? representativeImageUrl, // ★代表画像URLを追加
   }) = _Itinerary;
 
   factory Itinerary.fromJson(Map<String, dynamic> json) =>

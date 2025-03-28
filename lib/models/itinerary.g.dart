@@ -26,6 +26,7 @@ _$ItineraryImpl _$$ItineraryImplFromJson(Map<String, dynamic> json) =>
       likedByMe: json['likedByMe'] as bool? ?? false,
       bookmarkCount: (json['bookmarkCount'] as num?)?.toInt() ?? 0,
       bookmarkedByMe: json['bookmarkedByMe'] as bool? ?? false,
+      representativeImageUrl: json['representativeImageUrl'] as String?,
     );
 
 Map<String, dynamic> _$$ItineraryImplToJson(_$ItineraryImpl instance) =>
@@ -40,4 +41,5 @@ Map<String, dynamic> _$$ItineraryImplToJson(_$ItineraryImpl instance) =>
       'likedByMe': instance.likedByMe,
       'bookmarkCount': instance.bookmarkCount,
       'bookmarkedByMe': instance.bookmarkedByMe,
+      'representativeImageUrl': instance.representativeImageUrl,
     };

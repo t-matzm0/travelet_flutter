@@ -31,6 +31,7 @@ mixin _$Itinerary {
   bool get likedByMe => throw _privateConstructorUsedError;
   int get bookmarkCount => throw _privateConstructorUsedError;
   bool get bookmarkedByMe => throw _privateConstructorUsedError;
+  String? get representativeImageUrl => throw _privateConstructorUsedError;
 
   /// Serializes this Itinerary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,6 +59,7 @@ abstract class $ItineraryCopyWith<$Res> {
     bool likedByMe,
     int bookmarkCount,
     bool bookmarkedByMe,
+    String? representativeImageUrl,
   });
 }
 
@@ -86,6 +88,7 @@ class _$ItineraryCopyWithImpl<$Res, $Val extends Itinerary>
     Object? likedByMe = null,
     Object? bookmarkCount = null,
     Object? bookmarkedByMe = null,
+    Object? representativeImageUrl = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -139,6 +142,11 @@ class _$ItineraryCopyWithImpl<$Res, $Val extends Itinerary>
                     ? _value.bookmarkedByMe
                     : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
                         as bool,
+            representativeImageUrl:
+                freezed == representativeImageUrl
+                    ? _value.representativeImageUrl
+                    : representativeImageUrl // ignore: cast_nullable_to_non_nullable
+                        as String?,
           )
           as $Val,
     );
@@ -165,6 +173,7 @@ abstract class _$$ItineraryImplCopyWith<$Res>
     bool likedByMe,
     int bookmarkCount,
     bool bookmarkedByMe,
+    String? representativeImageUrl,
   });
 }
 
@@ -192,6 +201,7 @@ class __$$ItineraryImplCopyWithImpl<$Res>
     Object? likedByMe = null,
     Object? bookmarkCount = null,
     Object? bookmarkedByMe = null,
+    Object? representativeImageUrl = freezed,
   }) {
     return _then(
       _$ItineraryImpl(
@@ -245,6 +255,11 @@ class __$$ItineraryImplCopyWithImpl<$Res>
                 ? _value.bookmarkedByMe
                 : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
                     as bool,
+        representativeImageUrl:
+            freezed == representativeImageUrl
+                ? _value.representativeImageUrl
+                : representativeImageUrl // ignore: cast_nullable_to_non_nullable
+                    as String?,
       ),
     );
   }
@@ -264,6 +279,7 @@ class _$ItineraryImpl implements _Itinerary {
     this.likedByMe = false,
     this.bookmarkCount = 0,
     this.bookmarkedByMe = false,
+    this.representativeImageUrl,
   }) : _points = points,
        _segments = segments,
        _tags = tags;
@@ -317,10 +333,12 @@ class _$ItineraryImpl implements _Itinerary {
   @override
   @JsonKey()
   final bool bookmarkedByMe;
+  @override
+  final String? representativeImageUrl;
 
   @override
   String toString() {
-    return 'Itinerary(points: $points, segments: $segments, title: $title, description: $description, tags: $tags, isPublic: $isPublic, likes: $likes, likedByMe: $likedByMe, bookmarkCount: $bookmarkCount, bookmarkedByMe: $bookmarkedByMe)';
+    return 'Itinerary(points: $points, segments: $segments, title: $title, description: $description, tags: $tags, isPublic: $isPublic, likes: $likes, likedByMe: $likedByMe, bookmarkCount: $bookmarkCount, bookmarkedByMe: $bookmarkedByMe, representativeImageUrl: $representativeImageUrl)';
   }
 
   @override
@@ -342,7 +360,9 @@ class _$ItineraryImpl implements _Itinerary {
             (identical(other.bookmarkCount, bookmarkCount) ||
                 other.bookmarkCount == bookmarkCount) &&
             (identical(other.bookmarkedByMe, bookmarkedByMe) ||
-                other.bookmarkedByMe == bookmarkedByMe));
+                other.bookmarkedByMe == bookmarkedByMe) &&
+            (identical(other.representativeImageUrl, representativeImageUrl) ||
+                other.representativeImageUrl == representativeImageUrl));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -359,6 +379,7 @@ class _$ItineraryImpl implements _Itinerary {
     likedByMe,
     bookmarkCount,
     bookmarkedByMe,
+    representativeImageUrl,
   );
 
   /// Create a copy of Itinerary
@@ -387,6 +408,7 @@ abstract class _Itinerary implements Itinerary {
     final bool likedByMe,
     final int bookmarkCount,
     final bool bookmarkedByMe,
+    final String? representativeImageUrl,
   }) = _$ItineraryImpl;
 
   factory _Itinerary.fromJson(Map<String, dynamic> json) =
@@ -412,6 +434,8 @@ abstract class _Itinerary implements Itinerary {
   int get bookmarkCount;
   @override
   bool get bookmarkedByMe;
+  @override
+  String? get representativeImageUrl;
 
   /// Create a copy of Itinerary
   /// with the given fields replaced by the non-null parameter values.

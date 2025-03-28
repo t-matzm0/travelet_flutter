@@ -20,9 +20,11 @@ class ItineraryDetailScreen extends StatelessWidget {
     final points = itinerary.points;
     final segments = itinerary.segments;
     final representativePhoto =
-        points.first.spot.photos.isNotEmpty
-            ? points.first.spot.photos.first
-            : null;
+        (itinerary.representativeImageUrl?.isNotEmpty ?? false)
+            ? itinerary.representativeImageUrl
+            : (points.isNotEmpty && points.first.spot.photos.isNotEmpty
+                ? points.first.spot.photos.first
+                : null);
     final isWide = ResponsiveLayout.isWide(context);
 
     return BaseScaffold(
@@ -198,8 +200,8 @@ class ItineraryDetailScreen extends StatelessWidget {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(point.spot.address),
-                      if (point.spot.stayDurationMinutes != null)
+                      Text(spot.address),
+                      if (spot.stayDurationMinutes != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 4),
                           child: Row(
@@ -212,7 +214,7 @@ class ItineraryDetailScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                '${UITexts.stayDurationLabel}${point.spot.stayDurationMinutes}分',
+                                '${UITexts.stayDurationLabel}${spot.stayDurationMinutes}分',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey,
