@@ -30,10 +30,12 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   }
 
   void _openMapUrl() async {
+    final encodedQuery = Uri.encodeComponent(widget.spot.name);
     final url =
         widget.spot.placeId.isNotEmpty
-            ? 'https://www.google.com/maps/place/?q=place_id:${widget.spot.placeId}'
+            ? 'https://www.google.com/maps/search/?api=1&query=$encodedQuery&query_place_id=${widget.spot.placeId}'
             : 'https://www.google.com/maps/search/?q=${Uri.encodeComponent(widget.spot.address)}';
+
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
@@ -41,7 +43,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
       throw '${UITexts.openMap}に失敗しました: $url';
     }
   }
-
+  
   void _openOfficialUrl() async {
     if (widget.spot.officialUrl.isEmpty) return;
     final uri = Uri.parse(widget.spot.officialUrl);
@@ -295,53 +297,6 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
               Text(widget.spot.comment, style: theme.bodyLarge),
               const SizedBox(height: SpotStyles.vSpaceSm),
             ],
-            Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.thumb_up,
-                    color:
-                        spot.likedByMe
-                            ? SpotStyles.likeActiveColor
-                            : SpotStyles.inactiveIconColor,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      final isLiked = !spot.likedByMe;
-                      spot = spot.copyWith(
-                        likedByMe: isLiked,
-                        likes: isLiked ? spot.likes + 1 : spot.likes - 1,
-                      );
-                    });
-                  },
-                ),
-                Text('${spot.likes}'),
-                const SizedBox(width: SpotStyles.iconSpacing),
-                IconButton(
-                  icon: Icon(
-                    Icons.bookmark,
-                    color:
-                        spot.bookmarkedByMe
-                            ? SpotStyles.bookmarkActiveColor
-                            : SpotStyles.inactiveIconColor,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                      final isBookmarked = !spot.bookmarkedByMe;
-                      spot = spot.copyWith(
-                        bookmarkedByMe: isBookmarked,
-                        bookmarkCount:
-                            isBookmarked
-                                ? spot.bookmarkCount + 1
-                                : spot.bookmarkCount - 1,
-                      );
-                    });
-                  },
-                ),
-                Text('${spot.bookmarkCount}'),
-              ],
-            ),
-            const SizedBox(height: SpotStyles.vSpaceMd),
             Row(
               children: [
                 TextButton.icon(
