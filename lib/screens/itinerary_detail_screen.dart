@@ -7,6 +7,7 @@ import '../widgets/base_scaffold.dart';
 import '../constants/spot_styles.dart';
 import '../helpers/responsive_layout.dart';
 import '../constants/ui_texts.dart';
+import '../components/optimized_network_image.dart';
 import 'spot_detail_screen.dart';
 
 class ItineraryDetailScreen extends StatelessWidget {
@@ -32,43 +33,11 @@ class ItineraryDetailScreen extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          if (representativePhoto != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                representativePhoto,
-                height: 180,
-                width: double.infinity,
-                fit: BoxFit.cover,
-                errorBuilder:
-                    (_, __, ___) => Container(
-                      height: 180,
-                      width: double.infinity,
-                      color: SpotStyles.placeholderBackgroundColor,
-                      child: const Center(
-                        child: Text(
-                          SpotStyles.placeholderText,
-                          style: SpotStyles.placeholderTextStyle,
-                        ),
-                      ),
-                    ),
-              ),
-            )
-          else
-            Container(
-              height: 180,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: SpotStyles.placeholderBackgroundColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Center(
-                child: Text(
-                  SpotStyles.placeholderText,
-                  style: SpotStyles.placeholderTextStyle,
-                ),
-              ),
-            ),
+          OptimizedNetworkImage(
+            imageUrl: representativePhoto ?? '',
+            height: 180,
+            borderRadius: BorderRadius.circular(12),
+          ),
           const SizedBox(height: 12),
           Text(itinerary.description, style: theme.textTheme.bodyMedium),
           const SizedBox(height: 12),
@@ -165,37 +134,12 @@ class ItineraryDetailScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  leading:
-                      spot.photos.isNotEmpty
-                          ? Image.network(
-                            spot.photos.first,
-                            width: 48,
-                            height: 48,
-                            fit: BoxFit.cover,
-                            errorBuilder:
-                                (_, __, ___) => Container(
-                                  width: 48,
-                                  height: 48,
-                                  color: SpotStyles.placeholderBackgroundColor,
-                                  child: const Center(
-                                    child: Text(
-                                      SpotStyles.placeholderText,
-                                      style: SpotStyles.placeholderTextStyle,
-                                    ),
-                                  ),
-                                ),
-                          )
-                          : Container(
-                            width: 48,
-                            height: 48,
-                            color: SpotStyles.placeholderBackgroundColor,
-                            child: const Center(
-                              child: Text(
-                                SpotStyles.placeholderText,
-                                style: SpotStyles.placeholderTextStyle,
-                              ),
-                            ),
-                          ),
+                  leading: OptimizedNetworkImage(
+                    imageUrl: spot.photos.isNotEmpty ? spot.photos.first : '',
+                    width: 48,
+                    height: 48,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
                   title: Text(spot.name),
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

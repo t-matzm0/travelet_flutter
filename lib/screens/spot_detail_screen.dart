@@ -5,6 +5,7 @@ import '../constants/spot_styles.dart';
 import '../constants/ui_texts.dart';
 import '../components/spot_tag_badge.dart';
 import '../components/spot_category_badge.dart';
+import '../components/optimized_network_image.dart';
 import '../widgets/base_scaffold.dart';
 
 class SpotDetailScreen extends StatefulWidget {
@@ -20,7 +21,6 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   late Spot spot;
   late PageController _pageController;
   int _currentImageIndex = 0;
-  final Set<int> _failedImageIndices = {};
 
   @override
   void initState() {
@@ -43,7 +43,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
       throw '${UITexts.openMap}に失敗しました: $url';
     }
   }
-  
+
   void _openOfficialUrl() async {
     if (widget.spot.officialUrl.isEmpty) return;
     final uri = Uri.parse(widget.spot.officialUrl);
@@ -55,11 +55,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   }
 
   void _showImageDialog(BuildContext context, int startIndex) {
-    final validPhotos =
-        List.generate(
-          spot.photos.length,
-          (i) => !_failedImageIndices.contains(i) ? spot.photos[i] : null,
-        ).whereType<String>().toList();
+    final validPhotos = widget.spot.photos;
 
     if (validPhotos.isEmpty) return;
 
@@ -70,120 +66,106 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
       context: context,
       barrierDismissible: true,
       builder:
-          (_) => StatefulBuilder(
-            builder: (context, setState) {
-              final screenSize = MediaQuery.of(context).size;
-              return Dialog(
-                insetPadding: const EdgeInsets.all(SpotStyles.defaultPadding),
-                backgroundColor: Colors.transparent,
-                child: Container(
-                  width: screenSize.width * SpotStyles.imagePopupMaxWidthRatio,
-                  height:
-                      screenSize.height * SpotStyles.imagePopupMaxHeightRatio,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(
-                      SpotStyles.borderRadius,
-                    ),
+          (_) => Dialog(
+            insetPadding: const EdgeInsets.all(SpotStyles.defaultPadding),
+            backgroundColor: Colors.transparent,
+            child: Container(
+              width:
+                  MediaQuery.of(context).size.width *
+                  SpotStyles.imagePopupMaxWidthRatio,
+              height:
+                  MediaQuery.of(context).size.height *
+                  SpotStyles.imagePopupMaxHeightRatio,
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(SpotStyles.borderRadius),
+              ),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  PageView.builder(
+                    controller: _pageController,
+                    itemCount: validPhotos.length,
+                    onPageChanged:
+                        (index) => setState(() => _currentImageIndex = index),
+                    itemBuilder: (context, index) {
+                      return InteractiveViewer(
+                        child: Center(
+                          child: OptimizedNetworkImage(
+                            imageUrl: validPhotos[index],
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      );
+                    },
                   ),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      PageView.builder(
-                        controller: _pageController,
-                        itemCount: validPhotos.length,
-                        onPageChanged:
-                            (index) =>
-                                setState(() => _currentImageIndex = index),
-                        itemBuilder: (context, index) {
-                          return InteractiveViewer(
-                            child: Center(
-                              child: Image.network(
-                                validPhotos[index],
-                                fit: BoxFit.contain,
-                                errorBuilder:
-                                    (context, error, stackTrace) =>
-                                        const Center(
-                                          child: Text(
-                                            UITexts.imageError,
-                                            style:
-                                                SpotStyles.placeholderTextStyle,
-                                          ),
-                                        ),
-                              ),
-                            ),
+                  if (_currentImageIndex > 0)
+                    Positioned(
+                      left: SpotStyles.defaultPadding,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.white,
+                        ),
+                        onPressed: () {
+                          _pageController.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
                           );
                         },
                       ),
-                      if (_currentImageIndex > 0)
-                        Positioned(
-                          left: SpotStyles.defaultPadding,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              _pageController.previousPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                          ),
+                    ),
+                  if (_currentImageIndex < validPhotos.length - 1)
+                    Positioned(
+                      right: SpotStyles.defaultPadding,
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.white,
                         ),
-                      if (_currentImageIndex < validPhotos.length - 1)
-                        Positioned(
-                          right: SpotStyles.defaultPadding,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
-                            ),
-                            onPressed: () {
-                              _pageController.nextPage(
-                                duration: const Duration(milliseconds: 300),
-                                curve: Curves.easeInOut,
-                              );
-                            },
-                          ),
-                        ),
-                      Positioned(
-                        top: SpotStyles.defaultPadding / 2,
-                        right: SpotStyles.defaultPadding / 2,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.close,
-                            color: Colors.white,
-                            size: 28,
-                          ),
-                          onPressed: () => Navigator.of(context).pop(),
-                        ),
+                        onPressed: () {
+                          _pageController.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                          );
+                        },
                       ),
-                      Positioned(
-                        bottom: SpotStyles.defaultPadding,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(validPhotos.length, (index) {
-                            return Container(
-                              width: 8,
-                              height: 8,
-                              margin: const EdgeInsets.symmetric(horizontal: 4),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color:
-                                    _currentImageIndex == index
-                                        ? Colors.white
-                                        : Colors.grey,
-                              ),
-                            );
-                          }),
-                        ),
+                    ),
+                  Positioned(
+                    top: SpotStyles.defaultPadding / 2,
+                    right: SpotStyles.defaultPadding / 2,
+                    child: IconButton(
+                      icon: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 28,
                       ),
-                    ],
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
                   ),
-                ),
-              );
-            },
+                  Positioned(
+                    bottom: SpotStyles.defaultPadding,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(validPhotos.length, (index) {
+                        return Container(
+                          width: 8,
+                          height: 8,
+                          margin: const EdgeInsets.symmetric(horizontal: 4),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                _currentImageIndex == index
+                                    ? Colors.white
+                                    : Colors.grey,
+                          ),
+                        );
+                      }),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
     );
   }
@@ -192,7 +174,6 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context).textTheme;
     final photos = widget.spot.photos;
-    final allImagesFailed = _failedImageIndices.length == photos.length;
 
     return BaseScaffold(
       title: widget.spot.name,
@@ -203,7 +184,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
             SizedBox(
               height: SpotStyles.imageThumbnailWidth,
               child:
-                  allImagesFailed || photos.isEmpty
+                  photos.isEmpty
                       ? Container(
                         width: SpotStyles.imageThumbnailWidth,
                         height: SpotStyles.imageThumbnailWidth,
@@ -225,34 +206,16 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                               horizontal: SpotStyles.hSpaceXs,
                             ),
                             child: GestureDetector(
-                              onTap:
-                                  !_failedImageIndices.contains(index)
-                                      ? () => _showImageDialog(context, index)
-                                      : null,
+                              onTap: () => _showImageDialog(context, index),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(
                                   SpotStyles.borderRadius,
                                 ),
-                                child: Image.network(
-                                  photoUrl,
+                                child: OptimizedNetworkImage(
+                                  imageUrl: photoUrl,
                                   width: SpotStyles.imageThumbnailWidth,
+                                  height: SpotStyles.imageThumbnailWidth,
                                   fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    _failedImageIndices.add(index);
-                                    return Container(
-                                      width: SpotStyles.imageThumbnailWidth,
-                                      height: SpotStyles.imageThumbnailWidth,
-                                      color:
-                                          SpotStyles.placeholderBackgroundColor,
-                                      child: const Center(
-                                        child: Text(
-                                          UITexts.noImage,
-                                          style:
-                                              SpotStyles.placeholderTextStyle,
-                                        ),
-                                      ),
-                                    );
-                                  },
                                 ),
                               ),
                             ),

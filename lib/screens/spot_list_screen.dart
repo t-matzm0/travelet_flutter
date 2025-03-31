@@ -5,6 +5,7 @@ import '../constants/spot_styles.dart';
 import '../constants/ui_texts.dart';
 import '../components/spot_category_badge.dart';
 import '../components/spot_tag_badge.dart';
+import '../components/optimized_network_image.dart';
 import '../widgets/base_scaffold.dart';
 import 'spot_detail_screen.dart';
 
@@ -80,32 +81,15 @@ class _SpotListScreenState extends State<SpotListScreen> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              ClipRRect(
+                              OptimizedNetworkImage(
+                                imageUrl:
+                                    spot.photos.isNotEmpty
+                                        ? spot.photos.first
+                                        : '',
+                                width: SpotStyles.imageThumbnailWidth,
+                                height: SpotStyles.imageThumbnailWidth,
                                 borderRadius: BorderRadius.circular(
                                   SpotStyles.borderRadius,
-                                ),
-                                child: Image.network(
-                                  spot.photos.isNotEmpty
-                                      ? spot.photos.first
-                                      : '',
-                                  width: SpotStyles.imageThumbnailWidth,
-                                  height: SpotStyles.imageThumbnailWidth,
-                                  fit: BoxFit.cover,
-                                  errorBuilder:
-                                      (_, __, ___) => Container(
-                                        width: SpotStyles.imageThumbnailWidth,
-                                        height: SpotStyles.imageThumbnailWidth,
-                                        color:
-                                            SpotStyles
-                                                .placeholderBackgroundColor,
-                                        child: const Center(
-                                          child: Text(
-                                            SpotStyles.placeholderText,
-                                            style:
-                                                SpotStyles.placeholderTextStyle,
-                                          ),
-                                        ),
-                                      ),
                                 ),
                               ),
                               const SizedBox(width: SpotStyles.iconSpacing),

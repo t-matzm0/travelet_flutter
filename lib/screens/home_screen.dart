@@ -54,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
         child: const Icon(Icons.add),
       ),
     ),
-    _TabItem(
-      label: 'リスト',
-      icon: Icons.list,
-      body: const Center(child: Text('リスト作成（仮）')),
-    ),
+    // _TabItem(
+    //   label: 'リスト',
+    //   icon: Icons.list,
+    //   body: const Center(child: Text('リスト作成（仮）')),
+    // ),
   ];
 
   @override
