@@ -183,7 +183,7 @@ class ItineraryDetailScreen extends StatelessWidget {
                   Icon(segment.mode.icon, size: 20),
                   const SizedBox(width: 4),
                   Text(segment.mode.label),
-                  if (segment.note != null && segment.note!.isNotEmpty)
+                  if (segment.note.isNotEmpty)
                     Text(
                       '（${segment.note}）',
                       style: const TextStyle(color: Colors.grey),

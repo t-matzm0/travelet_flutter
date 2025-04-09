@@ -3,7 +3,6 @@ import '../models/itinerary.dart';
 import '../widgets/base_scaffold.dart';
 import 'itinerary_detail_screen.dart';
 import '../constants/spot_styles.dart';
-import '../constants/ui_texts.dart';
 import '../components/optimized_network_image.dart';
 
 class ItineraryListScreen extends StatelessWidget {

@@ -34,7 +34,7 @@ class _SpotListScreenState extends State<SpotListScreen> {
         }).toList();
 
     return BaseScaffold(
-      title: 'スポット一覧',
+      title: UITexts.spotListScreenTitle,
       child: Column(
         children: [
           Padding(
@@ -146,7 +146,7 @@ class _SpotListScreenState extends State<SpotListScreen> {
                                             .map(
                                               (tag) => SpotTagBadge(tag: tag),
                                             )
-                                            .toList(),
+                                            ,
                                       ],
                                     ),
                                     const SizedBox(height: SpotStyles.vSpaceSm),
