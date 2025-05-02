@@ -43,81 +43,80 @@ class ItineraryDetailScreen extends StatelessWidget {
           const SizedBox(height: 12),
           isWide
               ? Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      children:
-                          itinerary.tags
-                              .map((tag) => Chip(label: Text(tag)))
-                              .toList(),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.thumb_up,
-                            color:
-                                itinerary.likedByMe ? Colors.blue : Colors.grey,
-                          ),
-                          const SizedBox(width: 4),
-                          Text('${itinerary.likes}'),
-                          const SizedBox(width: 16),
-                          Icon(
-                            Icons.bookmark,
-                            color:
-                                itinerary.bookmarkedByMe
-                                    ? Colors.orange
-                                    : Colors.grey,
-                          ),
-                          const SizedBox(width: 4),
-                          Text('${itinerary.bookmarkCount}'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              )
-              : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 4,
-                    children:
-                        itinerary.tags
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Wrap(
+                        spacing: 8,
+                        runSpacing: 4,
+                        children: itinerary.tags
                             .map((tag) => Chip(label: Text(tag)))
                             .toList(),
-                  ),
-                  const SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.thumb_up,
-                        color: itinerary.likedByMe ? Colors.blue : Colors.grey,
                       ),
-                      const SizedBox(width: 4),
-                      Text('${itinerary.likes}'),
-                      const SizedBox(width: 16),
-                      Icon(
-                        Icons.bookmark,
-                        color:
-                            itinerary.bookmarkedByMe
-                                ? Colors.orange
-                                : Colors.grey,
-                      ),
-                      const SizedBox(width: 4),
-                      Text('${itinerary.bookmarkCount}'),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    const SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.thumb_up,
+                              color: itinerary.likedByMe
+                                  ? Colors.blue
+                                  : Colors.grey,
+                            ),
+                            const SizedBox(width: 4),
+                            Text('${itinerary.likes}'),
+                            const SizedBox(width: 16),
+                            Icon(
+                              Icons.bookmark,
+                              color: itinerary.bookmarkedByMe
+                                  ? Colors.orange
+                                  : Colors.grey,
+                            ),
+                            const SizedBox(width: 4),
+                            Text('${itinerary.bookmarkCount}'),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 4,
+                      children: itinerary.tags
+                          .map((tag) => Chip(label: Text(tag)))
+                          .toList(),
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.thumb_up,
+                          color: itinerary.likedByMe
+                              ? Colors.blue
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 4),
+                        Text('${itinerary.likes}'),
+                        const SizedBox(width: 16),
+                        Icon(
+                          Icons.bookmark,
+                          color: itinerary.bookmarkedByMe
+                              ? Colors.orange
+                              : Colors.grey,
+                        ),
+                        const SizedBox(width: 4),
+                        Text('${itinerary.bookmarkCount}'),
+                      ],
+                    ),
+                  ],
+                ),
           const SizedBox(height: 16),
           ...List.generate(points.length * 2 - 1, (i) {
             if (i.isEven) {

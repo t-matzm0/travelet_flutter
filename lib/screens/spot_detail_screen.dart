@@ -21,6 +21,7 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
   late Spot spot;
   late PageController _pageController;
   int _currentImageIndex = 0;
+  bool isLoggedIn = false; // ログイン状態のフラグ (仮にtrue or falseで切り替え)
 
   @override
   void initState() {
@@ -276,6 +277,17 @@ class _SpotDetailScreenState extends State<SpotDetailScreen> {
                   ),
               ],
             ),
+            // ログイン状態によって編集ボタンを表示
+            if (isLoggedIn)
+              Padding(
+                padding: const EdgeInsets.only(top: SpotStyles.vSpaceMd),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // 編集画面への遷移などの処理
+                  },
+                  child: const Text('編集'),
+                ),
+              ),
           ],
         ),
       ),
