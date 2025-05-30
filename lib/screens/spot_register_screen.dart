@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SpotRegisterScreen extends StatelessWidget {
+  const SpotRegisterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

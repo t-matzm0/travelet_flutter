@@ -26,19 +26,23 @@ class ResponsiveLayout {
 
   static double responsiveFontSize(BuildContext context, double baseFontSize) {
     final width = MediaQuery.of(context).size.width;
-    if (width >= SpotStyles.breakpointDesktop)
+    if (width >= SpotStyles.breakpointDesktop) {
       return baseFontSize * SpotStyles.desktopFontScale;
-    if (width >= SpotStyles.breakpointTablet)
+    }
+    if (width >= SpotStyles.breakpointTablet) {
       return baseFontSize * SpotStyles.tabletFontScale;
+    }
     return baseFontSize;
   }
 
   static double maxContentWidth(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
-    if (width >= SpotStyles.breakpointWide)
+    if (width >= SpotStyles.breakpointWide) {
       return SpotStyles.maxContentWidthWide;
-    if (width >= SpotStyles.breakpointDesktop)
+    }
+    if (width >= SpotStyles.breakpointDesktop) {
       return SpotStyles.maxContentWidthDesktop;
+    }
     return width * SpotStyles.mobileContentWidthRatio;
   }
 

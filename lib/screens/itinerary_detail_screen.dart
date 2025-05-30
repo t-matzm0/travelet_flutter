@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/itinerary.dart';
 import '../extensions/transport_mode_extension.dart';
-import '../models/itinerary_segment.dart';
-import '../models/itinerary_point.dart';
 import '../widgets/base_scaffold.dart';
-import '../constants/spot_styles.dart';
 import '../helpers/responsive_layout.dart';
 import '../constants/ui_texts.dart';
 import '../components/optimized_network_image.dart';
