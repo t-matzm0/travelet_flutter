@@ -1,9 +1,7 @@
 // lib/models/transport_mode.dart
 import 'package:json_annotation/json_annotation.dart';
 
-part 'transport_mode.g.dart';
-
-@JsonEnum(alwaysCreate: true)
+@JsonEnum()
 enum TransportMode {
   @JsonValue('walk')
   walk,

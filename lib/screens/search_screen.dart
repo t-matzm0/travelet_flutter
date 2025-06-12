@@ -138,7 +138,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               label: Text('$_maxTravelTime分以内'),
                               onSelected: (_) => _showTimeDialog(),
                               selected: true,
-                              backgroundColor: Colors.white.withOpacity(0.9),
+                              backgroundColor: Colors.white.withValues(alpha: 0.9),
                               selectedColor: Colors.white,
                               checkmarkColor: Theme.of(context).primaryColor,
                             ),
@@ -155,7 +155,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               ),
                               onSelected: (_) => _showTransportDialog(),
                               selected: true,
-                              backgroundColor: Colors.white.withOpacity(0.9),
+                              backgroundColor: Colors.white.withValues(alpha: 0.9),
                               selectedColor: Colors.white,
                               checkmarkColor: Theme.of(context).primaryColor,
                             ),
@@ -167,7 +167,7 @@ class _SearchScreenState extends State<SearchScreen> {
                               onSelected: (value) {
                                 setState(() => _useCurrentLocation = value);
                               },
-                              backgroundColor: Colors.white.withOpacity(0.9),
+                              backgroundColor: Colors.white.withValues(alpha: 0.9),
                               selectedColor: Colors.white,
                               checkmarkColor: Theme.of(context).primaryColor,
                             ),
