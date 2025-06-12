@@ -7,22 +7,22 @@ part of 'itinerary_segment.dart';
 // **************************************************************************
 
 _$ItinerarySegmentImpl _$$ItinerarySegmentImplFromJson(
-  Map<String, dynamic> json,
-) => _$ItinerarySegmentImpl(
-  mode: $enumDecode(_$TransportModeEnumMap, json['mode']),
-  note: json['note'] as String? ?? '',
-  durationMinutes: (json['durationMinutes'] as num?)?.toInt() ?? 0,
-  memo: json['memo'] as String? ?? '',
-);
+        Map<String, dynamic> json) =>
+    _$ItinerarySegmentImpl(
+      mode: $enumDecode(_$TransportModeEnumMap, json['mode']),
+      note: json['note'] as String? ?? '',
+      durationMinutes: (json['durationMinutes'] as num?)?.toInt() ?? 0,
+      memo: json['memo'] as String? ?? '',
+    );
 
 Map<String, dynamic> _$$ItinerarySegmentImplToJson(
-  _$ItinerarySegmentImpl instance,
-) => <String, dynamic>{
-  'mode': _$TransportModeEnumMap[instance.mode]!,
-  'note': instance.note,
-  'durationMinutes': instance.durationMinutes,
-  'memo': instance.memo,
-};
+        _$ItinerarySegmentImpl instance) =>
+    <String, dynamic>{
+      'mode': _$TransportModeEnumMap[instance.mode]!,
+      'note': instance.note,
+      'durationMinutes': instance.durationMinutes,
+      'memo': instance.memo,
+    };
 
 const _$TransportModeEnumMap = {
   TransportMode.walk: 'walk',

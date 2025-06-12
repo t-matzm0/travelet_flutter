@@ -12,8 +12,7 @@ part of 'itinerary_segment.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ItinerarySegment _$ItinerarySegmentFromJson(Map<String, dynamic> json) {
   return _ItinerarySegment.fromJson(json);
@@ -39,16 +38,11 @@ mixin _$ItinerarySegment {
 /// @nodoc
 abstract class $ItinerarySegmentCopyWith<$Res> {
   factory $ItinerarySegmentCopyWith(
-    ItinerarySegment value,
-    $Res Function(ItinerarySegment) then,
-  ) = _$ItinerarySegmentCopyWithImpl<$Res, ItinerarySegment>;
+          ItinerarySegment value, $Res Function(ItinerarySegment) then) =
+      _$ItinerarySegmentCopyWithImpl<$Res, ItinerarySegment>;
   @useResult
-  $Res call({
-    TransportMode mode,
-    String note,
-    int durationMinutes,
-    String memo,
-  });
+  $Res call(
+      {TransportMode mode, String note, int durationMinutes, String memo});
 }
 
 /// @nodoc
@@ -71,59 +65,46 @@ class _$ItinerarySegmentCopyWithImpl<$Res, $Val extends ItinerarySegment>
     Object? durationMinutes = null,
     Object? memo = null,
   }) {
-    return _then(
-      _value.copyWith(
-            mode:
-                null == mode
-                    ? _value.mode
-                    : mode // ignore: cast_nullable_to_non_nullable
-                        as TransportMode,
-            note:
-                null == note
-                    ? _value.note
-                    : note // ignore: cast_nullable_to_non_nullable
-                        as String,
-            durationMinutes:
-                null == durationMinutes
-                    ? _value.durationMinutes
-                    : durationMinutes // ignore: cast_nullable_to_non_nullable
-                        as int,
-            memo:
-                null == memo
-                    ? _value.memo
-                    : memo // ignore: cast_nullable_to_non_nullable
-                        as String,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      mode: null == mode
+          ? _value.mode
+          : mode // ignore: cast_nullable_to_non_nullable
+              as TransportMode,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      durationMinutes: null == durationMinutes
+          ? _value.durationMinutes
+          : durationMinutes // ignore: cast_nullable_to_non_nullable
+              as int,
+      memo: null == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$ItinerarySegmentImplCopyWith<$Res>
     implements $ItinerarySegmentCopyWith<$Res> {
-  factory _$$ItinerarySegmentImplCopyWith(
-    _$ItinerarySegmentImpl value,
-    $Res Function(_$ItinerarySegmentImpl) then,
-  ) = __$$ItinerarySegmentImplCopyWithImpl<$Res>;
+  factory _$$ItinerarySegmentImplCopyWith(_$ItinerarySegmentImpl value,
+          $Res Function(_$ItinerarySegmentImpl) then) =
+      __$$ItinerarySegmentImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    TransportMode mode,
-    String note,
-    int durationMinutes,
-    String memo,
-  });
+  $Res call(
+      {TransportMode mode, String note, int durationMinutes, String memo});
 }
 
 /// @nodoc
 class __$$ItinerarySegmentImplCopyWithImpl<$Res>
     extends _$ItinerarySegmentCopyWithImpl<$Res, _$ItinerarySegmentImpl>
     implements _$$ItinerarySegmentImplCopyWith<$Res> {
-  __$$ItinerarySegmentImplCopyWithImpl(
-    _$ItinerarySegmentImpl _value,
-    $Res Function(_$ItinerarySegmentImpl) _then,
-  ) : super(_value, _then);
+  __$$ItinerarySegmentImplCopyWithImpl(_$ItinerarySegmentImpl _value,
+      $Res Function(_$ItinerarySegmentImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ItinerarySegment
   /// with the given fields replaced by the non-null parameter values.
@@ -135,42 +116,35 @@ class __$$ItinerarySegmentImplCopyWithImpl<$Res>
     Object? durationMinutes = null,
     Object? memo = null,
   }) {
-    return _then(
-      _$ItinerarySegmentImpl(
-        mode:
-            null == mode
-                ? _value.mode
-                : mode // ignore: cast_nullable_to_non_nullable
-                    as TransportMode,
-        note:
-            null == note
-                ? _value.note
-                : note // ignore: cast_nullable_to_non_nullable
-                    as String,
-        durationMinutes:
-            null == durationMinutes
-                ? _value.durationMinutes
-                : durationMinutes // ignore: cast_nullable_to_non_nullable
-                    as int,
-        memo:
-            null == memo
-                ? _value.memo
-                : memo // ignore: cast_nullable_to_non_nullable
-                    as String,
-      ),
-    );
+    return _then(_$ItinerarySegmentImpl(
+      mode: null == mode
+          ? _value.mode
+          : mode // ignore: cast_nullable_to_non_nullable
+              as TransportMode,
+      note: null == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String,
+      durationMinutes: null == durationMinutes
+          ? _value.durationMinutes
+          : durationMinutes // ignore: cast_nullable_to_non_nullable
+              as int,
+      memo: null == memo
+          ? _value.memo
+          : memo // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$ItinerarySegmentImpl implements _ItinerarySegment {
-  const _$ItinerarySegmentImpl({
-    required this.mode,
-    this.note = '',
-    this.durationMinutes = 0,
-    this.memo = '',
-  });
+  const _$ItinerarySegmentImpl(
+      {required this.mode,
+      this.note = '',
+      this.durationMinutes = 0,
+      this.memo = ''});
 
   factory _$ItinerarySegmentImpl.fromJson(Map<String, dynamic> json) =>
       _$$ItinerarySegmentImplFromJson(json);
@@ -183,7 +157,7 @@ class _$ItinerarySegmentImpl implements _ItinerarySegment {
   @override
   @JsonKey()
   final int durationMinutes;
-  // 移動時間（分）
+// 移動時間（分）
   @override
   @JsonKey()
   final String memo;
@@ -217,23 +191,22 @@ class _$ItinerarySegmentImpl implements _ItinerarySegment {
   @pragma('vm:prefer-inline')
   _$$ItinerarySegmentImplCopyWith<_$ItinerarySegmentImpl> get copyWith =>
       __$$ItinerarySegmentImplCopyWithImpl<_$ItinerarySegmentImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ItinerarySegmentImplToJson(this);
+    return _$$ItinerarySegmentImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _ItinerarySegment implements ItinerarySegment {
-  const factory _ItinerarySegment({
-    required final TransportMode mode,
-    final String note,
-    final int durationMinutes,
-    final String memo,
-  }) = _$ItinerarySegmentImpl;
+  const factory _ItinerarySegment(
+      {required final TransportMode mode,
+      final String note,
+      final int durationMinutes,
+      final String memo}) = _$ItinerarySegmentImpl;
 
   factory _ItinerarySegment.fromJson(Map<String, dynamic> json) =
       _$ItinerarySegmentImpl.fromJson;
