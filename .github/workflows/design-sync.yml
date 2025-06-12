@@ -1,0 +1,70 @@
+name: Design Asset Sync
+
+on:
+  schedule:
+    # 毎週月曜日の9時に実行
+    - cron: '0 9 * * MON'
+  workflow_dispatch:
+    # 手動実行も可能
+  
+jobs:
+  check-design-updates:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Check design changelog
+        id: check_changelog
+        run: |
+          # 最新のデザイン変更日をチェック
+          latest_date=$(grep -E "^## v[0-9]+\.[0-9]+\.[0-9]+ - " docs/DESIGN_CHANGELOG.md | head -1 | sed 's/.*- //')
+          echo "latest_design_date=$latest_date" >> $GITHUB_OUTPUT
+          
+          # 1週間以上古い場合は通知
+          if [ -n "$latest_date" ]; then
+            last_update=$(date -d "$latest_date" +%s)
+            week_ago=$(date -d "1 week ago" +%s)
+            
+            if [ $last_update -lt $week_ago ]; then
+              echo "needs_update=true" >> $GITHUB_OUTPUT
+            else
+              echo "needs_update=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          fi
+          
+      - name: Create issue for design update
+        if: steps.check_changelog.outputs.needs_update == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🎨 デザインアセット更新確認',
+              body: `## デザインアセット更新の確認
+
+最新のデザイン変更から1週間以上経過しています。
+
+### 確認事項
+- [ ] Figmaファイルに新しい変更があるか確認
+- [ ] 必要に応じてワイヤーフレーム・アセットを更新
+- [ ] \`docs/DESIGN_CHANGELOG.md\` を更新
+
+### 最新の記録
+最終更新日: ${steps.check_changelog.outputs.latest_design_date || '記録なし'}
+
+### アクション
+1. Figmaファイルを確認: [デザインファイル](FIGMA_URL)
+2. 変更がある場合は \`design/update-\$(date +%Y%m%d)\` ブランチで更新
+3. このIssueをクローズ
+
+---
+*このIssueは自動生成されました*`,
+              labels: ['design', 'maintenance']
+            });
+            
+            console.log(`Created issue #${issue.data.number}`);
