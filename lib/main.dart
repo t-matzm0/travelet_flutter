@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'dart:io';
 import 'models/spot.dart';
 import 'models/itinerary.dart';
 import 'models/itinerary_point.dart';
@@ -10,14 +12,70 @@ void main() {
   runApp(const MyApp());
 }
 
+// プラットフォーム別フォントフォールバック設定
+List<String> _getFontFallback() {
+  if (kIsWeb) {
+    // Web: システムフォントを使用
+    return const [
+      'Noto Sans JP',
+      'Hiragino Sans',
+      'Yu Gothic UI',
+      'Yu Gothic',
+      'Meiryo',
+      'system-ui',
+      '-apple-system',
+      'sans-serif',
+    ];
+  } else if (Platform.isWindows) {
+    // Windows: Yu Gothic, Meiryoを優先
+    return const [
+      'Yu Gothic UI',
+      'Yu Gothic',
+      'Meiryo',
+      'Noto Sans JP',
+      'MS Gothic',
+    ];
+  } else if (Platform.isMacOS) {
+    // macOS: Hiragino Sansを優先
+    return const [
+      'Hiragino Sans',
+      'Hiragino Kaku Gothic ProN',
+      'Noto Sans JP',
+      'Yu Gothic',
+    ];
+  } else if (Platform.isLinux) {
+    // Linux: Noto Sans CJK, IPAフォントを優先
+    return const [
+      'Noto Sans CJK JP',
+      'Noto Sans JP',
+      'IPAexGothic',
+      'IPAPGothic',
+      'Takao Gothic',
+      'VL PGothic',
+      'DejaVu Sans',
+    ];
+  } else {
+    // その他プラットフォーム（Android, iOS）
+    return const [
+      'Noto Sans JP',
+      'Roboto',
+      'San Francisco',
+    ];
+  }
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Travel App',
-      theme: ThemeData(useMaterial3: true, colorSchemeSeed: Colors.teal),
+      title: 'Travelet',
+      theme: ThemeData(
+        useMaterial3: true,
+        colorSchemeSeed: Colors.teal,
+        fontFamilyFallback: _getFontFallback(),
+      ),
       home: HomeScreen(spots: sampleSpots, itineraries: sampleItineraries),
     );
   }
