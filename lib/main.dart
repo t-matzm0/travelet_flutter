@@ -70,7 +70,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Travelet',
+      title: 'Travelet - Dev',
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.teal,
