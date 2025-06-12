@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'spot_list_screen.dart';
-import 'spot_form_screen.dart';
 import 'itinerary_list_screen.dart';
 import 'itinerary_detail_screen.dart';
 import 'search_screen.dart';
@@ -19,26 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  late List<Spot> _spots;
 
-  @override
-  void initState() {
-    super.initState();
-    _spots = List.from(widget.spots);
-  }
-
-  Future<void> _navigateToAddSpot() async {
-    final newSpot = await Navigator.push<Spot>(
-      context,
-      MaterialPageRoute(builder: (_) => const SpotFormScreen()),
-    );
-
-    if (newSpot != null) {
-      setState(() {
-        _spots.insert(0, newSpot);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

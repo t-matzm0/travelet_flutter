@@ -12,8 +12,7 @@ part of 'spot.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 Spot _$SpotFromJson(Map<String, dynamic> json) {
   return _Spot.fromJson(json);
@@ -50,22 +49,21 @@ abstract class $SpotCopyWith<$Res> {
   factory $SpotCopyWith(Spot value, $Res Function(Spot) then) =
       _$SpotCopyWithImpl<$Res, Spot>;
   @useResult
-  $Res call({
-    String id,
-    String name,
-    String address,
-    String category,
-    List<String> tags,
-    String officialUrl,
-    String placeId,
-    List<String> photos,
-    String comment,
-    int likes,
-    bool likedByMe,
-    int bookmarkCount,
-    bool bookmarkedByMe,
-    int? stayDurationMinutes,
-  });
+  $Res call(
+      {String id,
+      String name,
+      String address,
+      String category,
+      List<String> tags,
+      String officialUrl,
+      String placeId,
+      List<String> photos,
+      String comment,
+      int likes,
+      bool likedByMe,
+      int bookmarkCount,
+      bool bookmarkedByMe,
+      int? stayDurationMinutes});
 }
 
 /// @nodoc
@@ -98,108 +96,89 @@ class _$SpotCopyWithImpl<$Res, $Val extends Spot>
     Object? bookmarkedByMe = null,
     Object? stayDurationMinutes = freezed,
   }) {
-    return _then(
-      _value.copyWith(
-            id:
-                null == id
-                    ? _value.id
-                    : id // ignore: cast_nullable_to_non_nullable
-                        as String,
-            name:
-                null == name
-                    ? _value.name
-                    : name // ignore: cast_nullable_to_non_nullable
-                        as String,
-            address:
-                null == address
-                    ? _value.address
-                    : address // ignore: cast_nullable_to_non_nullable
-                        as String,
-            category:
-                null == category
-                    ? _value.category
-                    : category // ignore: cast_nullable_to_non_nullable
-                        as String,
-            tags:
-                null == tags
-                    ? _value.tags
-                    : tags // ignore: cast_nullable_to_non_nullable
-                        as List<String>,
-            officialUrl:
-                null == officialUrl
-                    ? _value.officialUrl
-                    : officialUrl // ignore: cast_nullable_to_non_nullable
-                        as String,
-            placeId:
-                null == placeId
-                    ? _value.placeId
-                    : placeId // ignore: cast_nullable_to_non_nullable
-                        as String,
-            photos:
-                null == photos
-                    ? _value.photos
-                    : photos // ignore: cast_nullable_to_non_nullable
-                        as List<String>,
-            comment:
-                null == comment
-                    ? _value.comment
-                    : comment // ignore: cast_nullable_to_non_nullable
-                        as String,
-            likes:
-                null == likes
-                    ? _value.likes
-                    : likes // ignore: cast_nullable_to_non_nullable
-                        as int,
-            likedByMe:
-                null == likedByMe
-                    ? _value.likedByMe
-                    : likedByMe // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            bookmarkCount:
-                null == bookmarkCount
-                    ? _value.bookmarkCount
-                    : bookmarkCount // ignore: cast_nullable_to_non_nullable
-                        as int,
-            bookmarkedByMe:
-                null == bookmarkedByMe
-                    ? _value.bookmarkedByMe
-                    : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
-                        as bool,
-            stayDurationMinutes:
-                freezed == stayDurationMinutes
-                    ? _value.stayDurationMinutes
-                    : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
-                        as int?,
-          )
-          as $Val,
-    );
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      officialUrl: null == officialUrl
+          ? _value.officialUrl
+          : officialUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      placeId: null == placeId
+          ? _value.placeId
+          : placeId // ignore: cast_nullable_to_non_nullable
+              as String,
+      photos: null == photos
+          ? _value.photos
+          : photos // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as String,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      likedByMe: null == likedByMe
+          ? _value.likedByMe
+          : likedByMe // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bookmarkCount: null == bookmarkCount
+          ? _value.bookmarkCount
+          : bookmarkCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      bookmarkedByMe: null == bookmarkedByMe
+          ? _value.bookmarkedByMe
+          : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
+              as bool,
+      stayDurationMinutes: freezed == stayDurationMinutes
+          ? _value.stayDurationMinutes
+          : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
   }
 }
 
 /// @nodoc
 abstract class _$$SpotImplCopyWith<$Res> implements $SpotCopyWith<$Res> {
   factory _$$SpotImplCopyWith(
-    _$SpotImpl value,
-    $Res Function(_$SpotImpl) then,
-  ) = __$$SpotImplCopyWithImpl<$Res>;
+          _$SpotImpl value, $Res Function(_$SpotImpl) then) =
+      __$$SpotImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    String id,
-    String name,
-    String address,
-    String category,
-    List<String> tags,
-    String officialUrl,
-    String placeId,
-    List<String> photos,
-    String comment,
-    int likes,
-    bool likedByMe,
-    int bookmarkCount,
-    bool bookmarkedByMe,
-    int? stayDurationMinutes,
-  });
+  $Res call(
+      {String id,
+      String name,
+      String address,
+      String category,
+      List<String> tags,
+      String officialUrl,
+      String placeId,
+      List<String> photos,
+      String comment,
+      int likes,
+      bool likedByMe,
+      int bookmarkCount,
+      bool bookmarkedByMe,
+      int? stayDurationMinutes});
 }
 
 /// @nodoc
@@ -207,7 +186,7 @@ class __$$SpotImplCopyWithImpl<$Res>
     extends _$SpotCopyWithImpl<$Res, _$SpotImpl>
     implements _$$SpotImplCopyWith<$Res> {
   __$$SpotImplCopyWithImpl(_$SpotImpl _value, $Res Function(_$SpotImpl) _then)
-    : super(_value, _then);
+      : super(_value, _then);
 
   /// Create a copy of Spot
   /// with the given fields replaced by the non-null parameter values.
@@ -229,103 +208,87 @@ class __$$SpotImplCopyWithImpl<$Res>
     Object? bookmarkedByMe = null,
     Object? stayDurationMinutes = freezed,
   }) {
-    return _then(
-      _$SpotImpl(
-        id:
-            null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                    as String,
-        name:
-            null == name
-                ? _value.name
-                : name // ignore: cast_nullable_to_non_nullable
-                    as String,
-        address:
-            null == address
-                ? _value.address
-                : address // ignore: cast_nullable_to_non_nullable
-                    as String,
-        category:
-            null == category
-                ? _value.category
-                : category // ignore: cast_nullable_to_non_nullable
-                    as String,
-        tags:
-            null == tags
-                ? _value._tags
-                : tags // ignore: cast_nullable_to_non_nullable
-                    as List<String>,
-        officialUrl:
-            null == officialUrl
-                ? _value.officialUrl
-                : officialUrl // ignore: cast_nullable_to_non_nullable
-                    as String,
-        placeId:
-            null == placeId
-                ? _value.placeId
-                : placeId // ignore: cast_nullable_to_non_nullable
-                    as String,
-        photos:
-            null == photos
-                ? _value._photos
-                : photos // ignore: cast_nullable_to_non_nullable
-                    as List<String>,
-        comment:
-            null == comment
-                ? _value.comment
-                : comment // ignore: cast_nullable_to_non_nullable
-                    as String,
-        likes:
-            null == likes
-                ? _value.likes
-                : likes // ignore: cast_nullable_to_non_nullable
-                    as int,
-        likedByMe:
-            null == likedByMe
-                ? _value.likedByMe
-                : likedByMe // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        bookmarkCount:
-            null == bookmarkCount
-                ? _value.bookmarkCount
-                : bookmarkCount // ignore: cast_nullable_to_non_nullable
-                    as int,
-        bookmarkedByMe:
-            null == bookmarkedByMe
-                ? _value.bookmarkedByMe
-                : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
-                    as bool,
-        stayDurationMinutes:
-            freezed == stayDurationMinutes
-                ? _value.stayDurationMinutes
-                : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
-                    as int?,
-      ),
-    );
+    return _then(_$SpotImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      category: null == category
+          ? _value.category
+          : category // ignore: cast_nullable_to_non_nullable
+              as String,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      officialUrl: null == officialUrl
+          ? _value.officialUrl
+          : officialUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      placeId: null == placeId
+          ? _value.placeId
+          : placeId // ignore: cast_nullable_to_non_nullable
+              as String,
+      photos: null == photos
+          ? _value._photos
+          : photos // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      comment: null == comment
+          ? _value.comment
+          : comment // ignore: cast_nullable_to_non_nullable
+              as String,
+      likes: null == likes
+          ? _value.likes
+          : likes // ignore: cast_nullable_to_non_nullable
+              as int,
+      likedByMe: null == likedByMe
+          ? _value.likedByMe
+          : likedByMe // ignore: cast_nullable_to_non_nullable
+              as bool,
+      bookmarkCount: null == bookmarkCount
+          ? _value.bookmarkCount
+          : bookmarkCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      bookmarkedByMe: null == bookmarkedByMe
+          ? _value.bookmarkedByMe
+          : bookmarkedByMe // ignore: cast_nullable_to_non_nullable
+              as bool,
+      stayDurationMinutes: freezed == stayDurationMinutes
+          ? _value.stayDurationMinutes
+          : stayDurationMinutes // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
 class _$SpotImpl implements _Spot {
-  const _$SpotImpl({
-    required this.id,
-    required this.name,
-    required this.address,
-    required this.category,
-    required final List<String> tags,
-    required this.officialUrl,
-    required this.placeId,
-    required final List<String> photos,
-    required this.comment,
-    required this.likes,
-    required this.likedByMe,
-    required this.bookmarkCount,
-    required this.bookmarkedByMe,
-    this.stayDurationMinutes,
-  }) : _tags = tags,
-       _photos = photos;
+  const _$SpotImpl(
+      {required this.id,
+      required this.name,
+      required this.address,
+      required this.category,
+      required final List<String> tags,
+      required this.officialUrl,
+      required this.placeId,
+      required final List<String> photos,
+      required this.comment,
+      required this.likes,
+      required this.likedByMe,
+      required this.bookmarkCount,
+      required this.bookmarkedByMe,
+      this.stayDurationMinutes})
+      : _tags = tags,
+        _photos = photos;
 
   factory _$SpotImpl.fromJson(Map<String, dynamic> json) =>
       _$$SpotImplFromJson(json);
@@ -406,22 +369,21 @@ class _$SpotImpl implements _Spot {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
-    runtimeType,
-    id,
-    name,
-    address,
-    category,
-    const DeepCollectionEquality().hash(_tags),
-    officialUrl,
-    placeId,
-    const DeepCollectionEquality().hash(_photos),
-    comment,
-    likes,
-    likedByMe,
-    bookmarkCount,
-    bookmarkedByMe,
-    stayDurationMinutes,
-  );
+      runtimeType,
+      id,
+      name,
+      address,
+      category,
+      const DeepCollectionEquality().hash(_tags),
+      officialUrl,
+      placeId,
+      const DeepCollectionEquality().hash(_photos),
+      comment,
+      likes,
+      likedByMe,
+      bookmarkCount,
+      bookmarkedByMe,
+      stayDurationMinutes);
 
   /// Create a copy of Spot
   /// with the given fields replaced by the non-null parameter values.
@@ -433,27 +395,28 @@ class _$SpotImpl implements _Spot {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$SpotImplToJson(this);
+    return _$$SpotImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _Spot implements Spot {
-  const factory _Spot({
-    required final String id,
-    required final String name,
-    required final String address,
-    required final String category,
-    required final List<String> tags,
-    required final String officialUrl,
-    required final String placeId,
-    required final List<String> photos,
-    required final String comment,
-    required final int likes,
-    required final bool likedByMe,
-    required final int bookmarkCount,
-    required final bool bookmarkedByMe,
-    final int? stayDurationMinutes,
-  }) = _$SpotImpl;
+  const factory _Spot(
+      {required final String id,
+      required final String name,
+      required final String address,
+      required final String category,
+      required final List<String> tags,
+      required final String officialUrl,
+      required final String placeId,
+      required final List<String> photos,
+      required final String comment,
+      required final int likes,
+      required final bool likedByMe,
+      required final int bookmarkCount,
+      required final bool bookmarkedByMe,
+      final int? stayDurationMinutes}) = _$SpotImpl;
 
   factory _Spot.fromJson(Map<String, dynamic> json) = _$SpotImpl.fromJson;
 

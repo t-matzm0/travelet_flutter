@@ -13,5 +13,8 @@ _$ItineraryPointImpl _$$ItineraryPointImplFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$ItineraryPointImplToJson(
-  _$ItineraryPointImpl instance,
-) => <String, dynamic>{'spot': instance.spot, 'isHotel': instance.isHotel};
+        _$ItineraryPointImpl instance) =>
+    <String, dynamic>{
+      'spot': instance.spot.toJson(),
+      'isHotel': instance.isHotel,
+    };

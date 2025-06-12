@@ -8,19 +8,17 @@ part of 'itinerary.dart';
 
 _$ItineraryImpl _$$ItineraryImplFromJson(Map<String, dynamic> json) =>
     _$ItineraryImpl(
-      points:
-          (json['points'] as List<dynamic>)
-              .map((e) => ItineraryPoint.fromJson(e as Map<String, dynamic>))
-              .toList(),
-      segments:
-          (json['segments'] as List<dynamic>)
-              .map((e) => ItinerarySegment.fromJson(e as Map<String, dynamic>))
-              .toList(),
+      points: (json['points'] as List<dynamic>)
+          .map((e) => ItineraryPoint.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      segments: (json['segments'] as List<dynamic>)
+          .map((e) => ItinerarySegment.fromJson(e as Map<String, dynamic>))
+          .toList(),
       title: json['title'] as String? ?? '',
       description: json['description'] as String? ?? '',
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-          const [],
+              const [],
       isPublic: json['isPublic'] as bool? ?? false,
       likes: (json['likes'] as num?)?.toInt() ?? 0,
       likedByMe: json['likedByMe'] as bool? ?? false,

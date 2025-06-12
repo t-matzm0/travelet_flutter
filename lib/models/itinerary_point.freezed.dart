@@ -12,8 +12,7 @@ part of 'itinerary_point.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 ItineraryPoint _$ItineraryPointFromJson(Map<String, dynamic> json) {
   return _ItineraryPoint.fromJson(json);
@@ -37,9 +36,8 @@ mixin _$ItineraryPoint {
 /// @nodoc
 abstract class $ItineraryPointCopyWith<$Res> {
   factory $ItineraryPointCopyWith(
-    ItineraryPoint value,
-    $Res Function(ItineraryPoint) then,
-  ) = _$ItineraryPointCopyWithImpl<$Res, ItineraryPoint>;
+          ItineraryPoint value, $Res Function(ItineraryPoint) then) =
+      _$ItineraryPointCopyWithImpl<$Res, ItineraryPoint>;
   @useResult
   $Res call({Spot spot, bool isHotel});
 
@@ -60,22 +58,20 @@ class _$ItineraryPointCopyWithImpl<$Res, $Val extends ItineraryPoint>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? spot = null, Object? isHotel = null}) {
-    return _then(
-      _value.copyWith(
-            spot:
-                null == spot
-                    ? _value.spot
-                    : spot // ignore: cast_nullable_to_non_nullable
-                        as Spot,
-            isHotel:
-                null == isHotel
-                    ? _value.isHotel
-                    : isHotel // ignore: cast_nullable_to_non_nullable
-                        as bool,
-          )
-          as $Val,
-    );
+  $Res call({
+    Object? spot = null,
+    Object? isHotel = null,
+  }) {
+    return _then(_value.copyWith(
+      spot: null == spot
+          ? _value.spot
+          : spot // ignore: cast_nullable_to_non_nullable
+              as Spot,
+      isHotel: null == isHotel
+          ? _value.isHotel
+          : isHotel // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
   }
 
   /// Create a copy of ItineraryPoint
@@ -92,10 +88,9 @@ class _$ItineraryPointCopyWithImpl<$Res, $Val extends ItineraryPoint>
 /// @nodoc
 abstract class _$$ItineraryPointImplCopyWith<$Res>
     implements $ItineraryPointCopyWith<$Res> {
-  factory _$$ItineraryPointImplCopyWith(
-    _$ItineraryPointImpl value,
-    $Res Function(_$ItineraryPointImpl) then,
-  ) = __$$ItineraryPointImplCopyWithImpl<$Res>;
+  factory _$$ItineraryPointImplCopyWith(_$ItineraryPointImpl value,
+          $Res Function(_$ItineraryPointImpl) then) =
+      __$$ItineraryPointImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Spot spot, bool isHotel});
@@ -109,29 +104,27 @@ class __$$ItineraryPointImplCopyWithImpl<$Res>
     extends _$ItineraryPointCopyWithImpl<$Res, _$ItineraryPointImpl>
     implements _$$ItineraryPointImplCopyWith<$Res> {
   __$$ItineraryPointImplCopyWithImpl(
-    _$ItineraryPointImpl _value,
-    $Res Function(_$ItineraryPointImpl) _then,
-  ) : super(_value, _then);
+      _$ItineraryPointImpl _value, $Res Function(_$ItineraryPointImpl) _then)
+      : super(_value, _then);
 
   /// Create a copy of ItineraryPoint
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? spot = null, Object? isHotel = null}) {
-    return _then(
-      _$ItineraryPointImpl(
-        spot:
-            null == spot
-                ? _value.spot
-                : spot // ignore: cast_nullable_to_non_nullable
-                    as Spot,
-        isHotel:
-            null == isHotel
-                ? _value.isHotel
-                : isHotel // ignore: cast_nullable_to_non_nullable
-                    as bool,
-      ),
-    );
+  $Res call({
+    Object? spot = null,
+    Object? isHotel = null,
+  }) {
+    return _then(_$ItineraryPointImpl(
+      spot: null == spot
+          ? _value.spot
+          : spot // ignore: cast_nullable_to_non_nullable
+              as Spot,
+      isHotel: null == isHotel
+          ? _value.isHotel
+          : isHotel // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
   }
 }
 
@@ -174,21 +167,19 @@ class _$ItineraryPointImpl implements _ItineraryPoint {
   @pragma('vm:prefer-inline')
   _$$ItineraryPointImplCopyWith<_$ItineraryPointImpl> get copyWith =>
       __$$ItineraryPointImplCopyWithImpl<_$ItineraryPointImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ItineraryPointImplToJson(this);
+    return _$$ItineraryPointImplToJson(
+      this,
+    );
   }
 }
 
 abstract class _ItineraryPoint implements ItineraryPoint {
-  const factory _ItineraryPoint({
-    required final Spot spot,
-    final bool isHotel,
-  }) = _$ItineraryPointImpl;
+  const factory _ItineraryPoint(
+      {required final Spot spot, final bool isHotel}) = _$ItineraryPointImpl;
 
   factory _ItineraryPoint.fromJson(Map<String, dynamic> json) =
       _$ItineraryPointImpl.fromJson;
