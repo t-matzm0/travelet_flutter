@@ -2,6 +2,11 @@
 
 A cross-platform travel planning application built with Flutter, supporting multiple development environments.
 
+## 📚 Documentation
+
+- 🚀 **[Quick Start Guide](docs/QUICK_START.md)** - 5分で始める
+- 🔧 **[Setup Guide](docs/SETUP_GUIDE.md)** - OS別詳細セットアップ手順
+
 ## 🚀 Quick Start
 
 ### Prerequisites
