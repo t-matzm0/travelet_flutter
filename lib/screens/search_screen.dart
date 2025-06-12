@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import '../models/itinerary.dart';
-import '../models/spot.dart';
-import 'itinerary_detail_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
