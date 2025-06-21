@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'dart:io';
 import 'config/app_config.dart';
 import 'models/spot.dart';
@@ -8,8 +10,15 @@ import 'models/itinerary_point.dart';
 import 'models/itinerary_segment.dart';
 import 'models/transport_mode.dart';
 import 'screens/home_screen.dart';
+import 'screens/login_screen.dart';
+import 'providers/auth_provider.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -70,15 +79,43 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: AppConfig.appName,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorSchemeSeed: Colors.teal,
-        fontFamilyFallback: _getFontFallback(),
+    return ChangeNotifierProvider(
+      create: (context) => AuthProvider(),
+      child: MaterialApp(
+        title: AppConfig.appName,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.teal,
+          fontFamilyFallback: _getFontFallback(),
+        ),
+        home: const AuthWrapper(),
+        debugShowCheckedModeBanner: AppConfig.isDebugMode,
       ),
-      home: HomeScreen(spots: sampleSpots, itineraries: sampleItineraries),
-      debugShowCheckedModeBanner: AppConfig.isDebugMode,
+    );
+  }
+}
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child) {
+        if (authProvider.isLoading) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+
+        if (authProvider.isAuthenticated) {
+          return HomeScreen(spots: sampleSpots, itineraries: sampleItineraries);
+        } else {
+          return const LoginScreen();
+        }
+      },
     );
   }
 }

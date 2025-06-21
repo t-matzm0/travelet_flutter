@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'itinerary_list_screen.dart';
 import 'itinerary_detail_screen.dart';
 import 'search_screen.dart';
+import 'login_screen.dart';
+import 'profile_edit_screen.dart';
 import '../models/spot.dart';
 import '../models/itinerary.dart';
+import '../providers/auth_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   final List<Spot> spots;
@@ -396,151 +400,318 @@ class PlanCard extends StatelessWidget {
   }
 }
 
-// シンプルなプロフィール画面
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 180,
-            floating: false,
-            pinned: true,
-            backgroundColor: const Color(0xFF009688),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Color(0xFF00BCD4),
-                      Color(0xFF009688),
-                    ],
-                  ),
-                ),
-                child: const SafeArea(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        child: Icon(Icons.person, size: 50, color: Colors.grey),
-                      ),
-                      SizedBox(height: 16),
-                      Text(
-                        'ゲストユーザー',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, child) {
+        if (authProvider.isLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        final user = authProvider.user;
+        final isAuthenticated = user != null;
+
+        return Scaffold(
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                expandedHeight: 180,
+                floating: false,
+                pinned: true,
+                backgroundColor: const Color(0xFF009688),
+                actions: isAuthenticated
+                    ? [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const ProfileEditScreen(),
+                              ),
+                            );
+                          },
                         ),
+                      ]
+                    : null,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Container(
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Color(0xFF00BCD4),
+                          Color(0xFF009688),
+                        ],
                       ),
-                      SizedBox(height: 4),
-                      Text(
-                        'ログインして全機能を利用する',
-                        style: TextStyle(
-                          color: Colors.white70,
-                          fontSize: 14,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: Column(
-              children: [
-                const SizedBox(height: 8),
-                ListTile(
-                  leading: const Icon(Icons.favorite),
-                  title: const Text('お気に入り'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('お気に入り機能は準備中です')),
-                    );
-                  },
-                ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.history),
-                  title: const Text('閲覧履歴'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('履歴機能は準備中です')),
-                    );
-                  },
-                ),
-                const Divider(),
-                ListTile(
-                  leading: const Icon(Icons.settings),
-                  title: const Text('設定'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('設定機能は準備中です')),
-                    );
-                  },
-                ),
-                const Divider(),
-                
-                // ログイン促進
-                Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Card(
-                    color: Colors.blue[50],
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
+                    ),
+                    child: SafeArea(
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Icon(
-                            Icons.info_outline,
-                            color: Colors.blue,
-                            size: 32,
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.white,
+                            backgroundImage: user?.photoURL != null
+                                ? NetworkImage(user!.photoURL!)
+                                : null,
+                            child: user?.photoURL == null
+                                ? const Icon(Icons.person, size: 50, color: Colors.grey)
+                                : null,
                           ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'アカウントを作成すると',
-                            style: TextStyle(
+                          const SizedBox(height: 16),
+                          Text(
+                            isAuthenticated ? user.displayName : 'ゲストユーザー',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 4),
-                          const Text(
-                            '・プランの保存\n・お気に入り機能\n・投稿機能\nが利用できます',
+                          Text(
+                            isAuthenticated
+                                ? user.profileDescription.isEmpty
+                                    ? '自己紹介を追加しましょう'
+                                    : user.profileDescription
+                                : 'ログインして全機能を利用する',
+                            style: const TextStyle(
+                              color: Colors.white70,
+                              fontSize: 14,
+                            ),
                             textAlign: TextAlign.center,
-                            style: TextStyle(height: 1.5),
-                          ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('ログイン機能は準備中です'),
-                                ),
-                              );
-                            },
-                            child: const Text('ログイン・新規登録'),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 8),
+                    
+                    // 認証済みユーザーの場合のメニュー
+                    if (isAuthenticated) ...[
+                      // SNSリンク（設定されている場合）
+                      if (user.socialLinks.twitter != null ||
+                          user.socialLinks.instagram != null ||
+                          user.socialLinks.youtube != null ||
+                          user.socialLinks.vimeo != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text(
+                                    'SNS',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    children: [
+                                      if (user.socialLinks.twitter != null)
+                                        IconButton(
+                                          icon: const Icon(Icons.alternate_email),
+                                          onPressed: () {
+                                            // TODO: URLを開く
+                                          },
+                                        ),
+                                      if (user.socialLinks.instagram != null)
+                                        IconButton(
+                                          icon: const Icon(Icons.camera_alt),
+                                          onPressed: () {
+                                            // TODO: URLを開く
+                                          },
+                                        ),
+                                      if (user.socialLinks.youtube != null)
+                                        IconButton(
+                                          icon: const Icon(Icons.play_circle),
+                                          onPressed: () {
+                                            // TODO: URLを開く
+                                          },
+                                        ),
+                                      if (user.socialLinks.vimeo != null)
+                                        IconButton(
+                                          icon: const Icon(Icons.videocam),
+                                          onPressed: () {
+                                            // TODO: URLを開く
+                                          },
+                                        ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      const SizedBox(height: 8),
+                    ],
+
+                    ListTile(
+                      leading: const Icon(Icons.favorite),
+                      title: const Text('お気に入り'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        if (isAuthenticated) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('お気に入り機能は準備中です')),
+                          );
+                        } else {
+                          _showLoginPrompt(context);
+                        }
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.history),
+                      title: const Text('閲覧履歴'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        if (isAuthenticated) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('履歴機能は準備中です')),
+                          );
+                        } else {
+                          _showLoginPrompt(context);
+                        }
+                      },
+                    ),
+                    const Divider(),
+                    ListTile(
+                      leading: const Icon(Icons.settings),
+                      title: const Text('設定'),
+                      trailing: const Icon(Icons.chevron_right),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('設定機能は準備中です')),
+                        );
+                      },
+                    ),
+                    const Divider(),
+
+                    // 認証状態に応じたアクション
+                    if (isAuthenticated) ...[
+                      ListTile(
+                        leading: const Icon(Icons.logout, color: Colors.red),
+                        title: const Text(
+                          'ログアウト',
+                          style: TextStyle(color: Colors.red),
+                        ),
+                        onTap: () {
+                          _showLogoutDialog(context, authProvider);
+                        },
+                      ),
+                    ] else ...[
+                      // ログイン促進
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Card(
+                          color: Colors.blue[50],
+                          child: Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              children: [
+                                const Icon(
+                                  Icons.info_outline,
+                                  color: Colors.blue,
+                                  size: 32,
+                                ),
+                                const SizedBox(height: 8),
+                                const Text(
+                                  'アカウントを作成すると',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                const Text(
+                                  '・プランの保存\n・お気に入り機能\n・投稿機能\nが利用できます',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(height: 1.5),
+                                ),
+                                const SizedBox(height: 16),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) => const LoginScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: const Text('ログイン・新規登録'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+        );
+      },
+    );
+  }
+
+  void _showLoginPrompt(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('この機能を使用するにはログインが必要です'),
+        action: SnackBarAction(
+          label: 'ログイン',
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, AuthProvider authProvider) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('ログアウト'),
+          content: const Text('ログアウトしますか？'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('キャンセル'),
+            ),
+            TextButton(
+              onPressed: () async {
+                Navigator.of(context).pop();
+                await authProvider.signOut();
+              },
+              child: const Text('ログアウト'),
+            ),
+          ],
+        );
+      },
     );
   }
 }
