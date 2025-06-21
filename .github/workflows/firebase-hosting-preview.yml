@@ -31,17 +31,21 @@ jobs:
         run: flutter test
         continue-on-error: true  # テストが失敗してもデプロイは続行
 
-      - name: Build web app
-        run: flutter build web --release --no-tree-shake-icons
+      - name: Build web app (staging)
+        run: |
+          flutter build web --release \
+            --no-tree-shake-icons \
+            --target=lib/main_staging.dart \
+            --dart-define=ENVIRONMENT=staging
 
-      - name: Deploy to Firebase Hosting Preview Channel
+      - name: Deploy to Firebase Hosting Staging Channel
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVELET_APP }}'
-          projectId: travelet-app
-          channelId: develop-${{ github.event.pull_request.number || github.run_number }}
-          expires: 7d
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVELET_FLUTTER }}'
+          projectId: travelet-flutter
+          channelId: staging
+          expires: 30d
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
 

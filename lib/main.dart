@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
+import 'config/app_config.dart';
 import 'models/spot.dart';
 import 'models/itinerary.dart';
 import 'models/itinerary_point.dart';
@@ -70,13 +71,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Travelet - Dev',
+      title: AppConfig.appName,
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.teal,
         fontFamilyFallback: _getFontFallback(),
       ),
       home: HomeScreen(spots: sampleSpots, itineraries: sampleItineraries),
+      debugShowCheckedModeBanner: AppConfig.isDebugMode,
     );
   }
 }

@@ -33,14 +33,15 @@ jobs:
         run: |
           flutter build web --release \
             --no-tree-shake-icons \
+            --target=lib/main_production.dart \
             --dart-define=ENVIRONMENT=production
 
       - name: Deploy to Firebase Hosting Production
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVELET_APP }}'
-          projectId: travelet-app
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVELET_FLUTTER }}'
+          projectId: travelet-flutter
           channelId: live  # 本番環境
 
       - name: Create release tag
