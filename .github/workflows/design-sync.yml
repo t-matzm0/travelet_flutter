@@ -6,6 +6,7 @@ on:
     - cron: '0 9 * * MON'
   workflow_dispatch:
     # 手動実行も可能
+  # pushイベントでは実行しない
   
 jobs:
   check-design-updates:
@@ -39,8 +40,11 @@ jobs:
       - name: Create issue for design update
         if: steps.check_changelog.outputs.needs_update == 'true'
         uses: actions/github-script@v7
+        env:
+          LATEST_DESIGN_DATE: ${{ steps.check_changelog.outputs.latest_design_date }}
         with:
           script: |
+            const latestDate = process.env.LATEST_DESIGN_DATE || '記録なし';
             const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -55,11 +59,11 @@ jobs:
 - [ ] \`docs/DESIGN_CHANGELOG.md\` を更新
 
 ### 最新の記録
-最終更新日: ${steps.check_changelog.outputs.latest_design_date || '記録なし'}
+最終更新日: ${latestDate}
 
 ### アクション
 1. Figmaファイルを確認: [デザインファイル](FIGMA_URL)
-2. 変更がある場合は \`design/update-\$(date +%Y%m%d)\` ブランチで更新
+2. 変更がある場合は design/update-YYYYMMDD ブランチで更新
 3. このIssueをクローズ
 
 ---
