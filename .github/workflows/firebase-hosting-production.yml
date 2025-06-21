@@ -1,0 +1,53 @@
+name: Deploy to Firebase Hosting Production
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:  # 手動実行も可能
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.3'
+          channel: 'stable'
+
+      - name: Flutter version
+        run: flutter --version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build web app (production)
+        run: |
+          flutter build web --release \
+            --no-tree-shake-icons \
+            --target=lib/main_production.dart \
+            --dart-define=ENVIRONMENT=production
+
+      - name: Deploy to Firebase Hosting Production
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_TRAVELET_FLUTTER }}'
+          projectId: travelet-flutter
+          channelId: live  # 本番環境
+
+      - name: Create release tag
+        run: |
+          VERSION=$(date +%Y.%m.%d-%H%M%S)
+          git tag -a "release-$VERSION" -m "Production release $VERSION"
+          git push origin "release-$VERSION"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

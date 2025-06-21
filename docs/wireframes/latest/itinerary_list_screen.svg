@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="375" height="812" fill="#FFFFFF"/>
+  
+  <!-- Header -->
+  <rect x="0" y="0" width="375" height="100" fill="#009688"/>
+  <text x="187.5" y="70" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white">プラン</text>
+  
+  <!-- Tab Selector -->
+  <rect x="16" y="120" width="343" height="48" rx="24" fill="#F5F5F5"/>
+  <rect x="18" y="122" width="168" height="44" rx="22" fill="#009688"/>
+  <text x="102" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">公開プラン</text>
+  <text x="272" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">マイプラン</text>
+  
+  <!-- Filter and Sort -->
+  <g id="controls">
+    <rect x="16" y="188" width="80" height="32" rx="16" fill="#E0E0E0"/>
+    <text x="56" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">フィルタ</text>
+    
+    <rect x="279" y="188" width="80" height="32" rx="16" fill="#E0E0E0"/>
+    <text x="319" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">並び替え</text>
+  </g>
+  
+  <!-- Plan List -->
+  <g id="plan1">
+    <rect x="16" y="240" width="343" height="120" rx="12" fill="white" stroke="#E0E0E0"/>
+    <rect x="32" y="256" width="100" height="88" rx="8" fill="#E0E0E0"/>
+    <text x="148" y="272" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#212121">東京観光1日モデルプラン</text>
+    <text x="148" y="292" font-family="Arial, sans-serif" font-size="14" fill="#757575">浅草からスカイツリー、明治神宮を巡る...</text>
+    <rect x="148" y="300" width="40" height="16" rx="8" fill="#E3F2FD"/>
+    <text x="168" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976D2">東京</text>
+    <rect x="194" y="300" width="40" height="16" rx="8" fill="#E8F5E8"/>
+    <text x="214" y="311" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#388E3C">定番</text>
+    <circle cx="148" cy="330" r="6" fill="#F44336"/>
+    <text x="162" y="334" font-family="Arial, sans-serif" font-size="12" fill="#757575">12</text>
+    <circle cx="190" cy="330" r="6" fill="#757575"/>
+    <text x="204" y="334" font-family="Arial, sans-serif" font-size="12" fill="#757575">3スポット</text>
+  </g>
+  
+  <g id="plan2">
+    <rect x="16" y="380" width="343" height="120" rx="12" fill="white" stroke="#E0E0E0"/>
+    <rect x="32" y="396" width="100" height="88" rx="8" fill="#E0E0E0"/>
+    <text x="148" y="412" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#212121">東京グルメツアー</text>
+    <text x="148" y="432" font-family="Arial, sans-serif" font-size="14" fill="#757575">人気のレストランやカフェを巡る...</text>
+    <rect x="148" y="440" width="40" height="16" rx="8" fill="#E3F2FD"/>
+    <text x="168" y="451" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976D2">東京</text>
+    <rect x="194" y="440" width="50" height="16" rx="8" fill="#FFF3E0"/>
+    <text x="219" y="451" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#F57C00">グルメ</text>
+    <circle cx="148" cy="470" r="6" fill="#9E9E9E"/>
+    <text x="162" y="474" font-family="Arial, sans-serif" font-size="12" fill="#757575">0</text>
+    <circle cx="190" cy="470" r="6" fill="#757575"/>
+    <text x="204" y="474" font-family="Arial, sans-serif" font-size="12" fill="#757575">2スポット</text>
+  </g>
+  
+  <g id="plan3">
+    <rect x="16" y="520" width="343" height="120" rx="12" fill="white" stroke="#E0E0E0"/>
+    <rect x="32" y="536" width="100" height="88" rx="8" fill="#E0E0E0"/>
+    <text x="148" y="552" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#212121">東京歴史巡り</text>
+    <text x="148" y="572" font-family="Arial, sans-serif" font-size="14" fill="#757575">東京の歴史的な名所を巡るプラン</text>
+    <rect x="148" y="580" width="40" height="16" rx="8" fill="#E3F2FD"/>
+    <text x="168" y="591" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1976D2">東京</text>
+    <rect x="194" y="580" width="40" height="16" rx="8" fill="#FCE4EC"/>
+    <text x="214" y="591" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#C2185B">歴史</text>
+    <circle cx="148" cy="610" r="6" fill="#9E9E9E"/>
+    <text x="162" y="614" font-family="Arial, sans-serif" font-size="12" fill="#757575">0</text>
+    <circle cx="190" cy="610" r="6" fill="#757575"/>
+    <text x="204" y="614" font-family="Arial, sans-serif" font-size="12" fill="#757575">2スポット</text>
+  </g>
+  
+  <!-- Floating Action Button -->
+  <circle cx="327" cy="670" r="28" fill="#009688"/>
+  <rect x="319" y="662" width="16" height="2" fill="white"/>
+  <rect x="326" y="655" width="2" height="16" fill="white"/>
+  
+  <!-- Bottom Navigation -->
+  <rect x="0" y="728" width="375" height="84" fill="white" stroke="#E0E0E0"/>
+  <g id="nav-home">
+    <rect x="40" y="752" width="30" height="20" rx="4" fill="#9E9E9E"/>
+    <text x="55" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">ホーム</text>
+  </g>
+  <g id="nav-search">
+    <circle cx="140" cy="762" r="12" fill="#9E9E9E"/>
+    <text x="140" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">検索</text>
+  </g>
+  <g id="nav-plan">
+    <rect x="210" y="740" width="70" height="60" fill="#009688" rx="8"/>
+    <rect x="220" y="750" width="24" height="24" rx="4" fill="white"/>
+    <text x="232" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#009688">プラン</text>
+  </g>
+  <g id="nav-profile">
+    <circle cx="325" cy="762" r="12" fill="#9E9E9E"/>
+    <text x="325" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">マイページ</text>
+  </g>
+</svg>

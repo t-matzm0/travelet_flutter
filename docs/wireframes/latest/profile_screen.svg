@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375" height="812" viewBox="0 0 375 812" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="375" height="812" fill="#FFFFFF"/>
+  
+  <!-- Header Gradient -->
+  <defs>
+    <linearGradient id="profileGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00BCD4"/>
+      <stop offset="100%" stop-color="#009688"/>
+    </linearGradient>
+  </defs>
+  <rect width="375" height="180" fill="url(#profileGradient)"/>
+  
+  <!-- Profile Info -->
+  <circle cx="187.5" cy="110" r="40" fill="white"/>
+  <circle cx="187.5" cy="110" r="35" fill="#E0E0E0"/>
+  <circle cx="187.5" cy="100" r="20" fill="#757575"/>
+  <path d="M162.5 130 Q162.5 125 167.5 125 H207.5 Q212.5 125 212.5 130" fill="#757575"/>
+  
+  <text x="187.5" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white">ゲストユーザー</text>
+  <text x="187.5" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.7)">ログインして全機能を利用する</text>
+  
+  <!-- Menu Items -->
+  <g id="menu">
+    <!-- Favorites -->
+    <rect x="0" y="200" width="375" height="60" fill="white"/>
+    <circle cx="40" cy="230" r="12" fill="#F44336"/>
+    <text x="70" y="235" font-family="Arial, sans-serif" font-size="16" fill="#212121">お気に入り</text>
+    <polygon points="345,225 340,230 345,235" fill="#9E9E9E"/>
+    <line x1="16" y1="260" x2="359" y2="260" stroke="#E0E0E0"/>
+    
+    <!-- History -->
+    <rect x="0" y="260" width="375" height="60" fill="white"/>
+    <circle cx="40" cy="290" r="12" fill="#2196F3"/>
+    <text x="70" y="295" font-family="Arial, sans-serif" font-size="16" fill="#212121">閲覧履歴</text>
+    <polygon points="345,285 340,290 345,295" fill="#9E9E9E"/>
+    <line x1="16" y1="320" x2="359" y2="320" stroke="#E0E0E0"/>
+    
+    <!-- Settings -->
+    <rect x="0" y="320" width="375" height="60" fill="white"/>
+    <circle cx="40" cy="350" r="12" fill="#757575"/>
+    <text x="70" y="355" font-family="Arial, sans-serif" font-size="16" fill="#212121">設定</text>
+    <polygon points="345,345 340,350 345,355" fill="#9E9E9E"/>
+    <line x1="16" y1="380" x2="359" y2="380" stroke="#E0E0E0"/>
+  </g>
+  
+  <!-- Login Promotion Card -->
+  <rect x="16" y="400" width="343" height="200" rx="12" fill="#E3F2FD"/>
+  <circle cx="187.5" cy="440" r="16" fill="#2196F3"/>
+  <text x="187" y="446" font-family="Arial, sans-serif" font-size="12" fill="white">i</text>
+  
+  <text x="187.5" y="470" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#212121">アカウントを作成すると</text>
+  
+  <text x="187.5" y="495" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">・プランの保存</text>
+  <text x="187.5" y="515" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">・お気に入り機能</text>
+  <text x="187.5" y="535" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">・投稿機能</text>
+  <text x="187.5" y="555" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#757575">が利用できます</text>
+  
+  <rect x="130" y="570" width="115" height="40" rx="20" fill="#2196F3"/>
+  <text x="187.5" y="594" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="white">ログイン・新規登録</text>
+  
+  <!-- Bottom Navigation -->
+  <rect x="0" y="728" width="375" height="84" fill="white" stroke="#E0E0E0"/>
+  <g id="nav-home">
+    <rect x="40" y="752" width="30" height="20" rx="4" fill="#9E9E9E"/>
+    <text x="55" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">ホーム</text>
+  </g>
+  <g id="nav-search">
+    <circle cx="140" cy="762" r="12" fill="#9E9E9E"/>
+    <text x="140" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">検索</text>
+  </g>
+  <g id="nav-plan">
+    <rect x="220" y="750" width="24" height="24" rx="4" fill="#9E9E9E"/>
+    <text x="232" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#9E9E9E">プラン</text>
+  </g>
+  <g id="nav-profile">
+    <rect x="310" y="740" width="70" height="60" fill="#009688" rx="8"/>
+    <circle cx="325" cy="762" r="12" fill="white"/>
+    <text x="325" y="784" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#009688">マイページ</text>
+  </g>
+</svg>

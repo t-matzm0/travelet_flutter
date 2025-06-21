@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../models/itinerary.dart';
+import '../models/transport_mode.dart';
+import '../extensions/transport_mode_extension.dart';
+import 'itinerary_detail_screen.dart';
+import '../components/optimized_network_image.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -8,173 +13,322 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final TextEditingController _searchController = TextEditingController();
-  int _selectedTimeFilter = 30;
-  String _selectedTransport = '電車';
-  
-  // デモ用データ
-  final List<Map<String, dynamic>> _demoResults = [
-    {
-      'title': '浅草寺周辺散策プラン',
-      'duration': 15,
-      'transport': '徒歩',
-      'spotCount': 3,
-      'description': '浅草寺を中心に下町情緒を楽しむ',
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/7/75/Cloudy_Sens%C5%8D-ji.jpg',
-    },
-    {
-      'title': 'スカイツリー観光プラン', 
-      'duration': 25,
-      'transport': '電車',
-      'spotCount': 4,
-      'description': 'スカイツリーと周辺施設を満喫',
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/8/84/Tokyo_Skytree_2014_%E2%85%A2.jpg',
-    },
-    {
-      'title': '上野公園アートツアー',
-      'duration': 20,
-      'transport': '徒歩',
-      'spotCount': 5,
-      'description': '美術館・博物館を巡る文化的な一日',
-      'image': 'https://upload.wikimedia.org/wikipedia/commons/6/60/Ueno_Park_in_Spring_2017.jpg',
-    },
-  ];
+  final _searchController = TextEditingController();
+  int _maxTravelTime = 30; // 分
+  TransportMode _selectedTransportMode = TransportMode.train;
+  bool _useCurrentLocation = true;
 
-  List<Map<String, dynamic>> get _filteredResults {
-    return _demoResults.where((result) {
-      final matchesTime = result['duration'] <= _selectedTimeFilter;
-      final matchesTransport = _selectedTransport == 'すべて' || 
-                              result['transport'] == _selectedTransport;
-      final matchesSearch = _searchController.text.isEmpty ||
-          result['title'].toString().toLowerCase().contains(_searchController.text.toLowerCase()) ||
-          result['description'].toString().toLowerCase().contains(_searchController.text.toLowerCase());
-      
-      return matchesTime && matchesTransport && matchesSearch;
+  // TODO: 実際はFirebaseから取得
+  final List<Itinerary> _allItineraries = [];
+
+  List<Itinerary> get _filteredItineraries {
+    return _allItineraries.where((itinerary) {
+      // キーワード検索
+      if (_searchController.text.isNotEmpty) {
+        final query = _searchController.text.toLowerCase();
+        final matchesQuery =
+            itinerary.title.toLowerCase().contains(query) ||
+            itinerary.description.toLowerCase().contains(query) ||
+            itinerary.tags.any((tag) => tag.toLowerCase().contains(query)) ||
+            itinerary.points.any(
+              (point) =>
+                  point.spot.name.toLowerCase().contains(query) ||
+                  point.spot.address.toLowerCase().contains(query),
+            );
+
+        if (!matchesQuery) return false;
+      }
+
+      // TODO: 実際の所要時間計算
+      // 現在は仮の実装
+      final estimatedTime = _calculateEstimatedTime(itinerary);
+      return estimatedTime <= _maxTravelTime;
     }).toList();
+  }
+
+  // 仮の所要時間計算
+  int _calculateEstimatedTime(Itinerary itinerary) {
+    // TODO: Google Maps APIを使った実際の計算
+    switch (_selectedTransportMode) {
+      case TransportMode.walk:
+        return 60;
+      case TransportMode.bicycle:
+        return 40;
+      case TransportMode.car:
+        return 20;
+      case TransportMode.train:
+        return 30;
+      case TransportMode.bus:
+        return 35;
+      case TransportMode.ferry:
+        return 50;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('検索'),
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          // 検索エリア
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.05),
-              borderRadius: const BorderRadius.vertical(
-                bottom: Radius.circular(16),
-              ),
-            ),
-            child: Column(
-              children: [
-                // 検索バー
-                TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: '場所やキーワードで検索',
-                    prefixIcon: const Icon(Icons.search),
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                  onChanged: (_) => setState(() {}),
-                ),
-                const SizedBox(height: 16),
-                
-                // フィルターチップ
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      // 時間フィルター
-                      _buildTimeFilterChip(15, '15分以内'),
-                      const SizedBox(width: 8),
-                      _buildTimeFilterChip(30, '30分以内'),
-                      const SizedBox(width: 8),
-                      _buildTimeFilterChip(60, '1時間以内'),
-                      const SizedBox(width: 16),
-                      
-                      // 交通手段フィルター
-                      _buildTransportChip('すべて', Icons.apps),
-                      const SizedBox(width: 8),
-                      _buildTransportChip('電車', Icons.train),
-                      const SizedBox(width: 8),
-                      _buildTransportChip('徒歩', Icons.directions_walk),
+      backgroundColor: Colors.grey[50],
+      body: CustomScrollView(
+        slivers: [
+          // 検索ヘッダー
+          SliverAppBar(
+            expandedHeight: 280,
+            floating: false,
+            pinned: true,
+            backgroundColor: Theme.of(context).primaryColor,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColor.withBlue(200),
                     ],
                   ),
                 ),
-              ],
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 40),
+                        const Text(
+                          '今から行ける場所を探す',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // 検索バー
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: TextField(
+                            controller: _searchController,
+                            decoration: const InputDecoration(
+                              hintText: 'エリア、スポット名、キーワード',
+                              prefixIcon: Icon(Icons.search),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 15,
+                              ),
+                            ),
+                            onChanged: (_) => setState(() {}),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // フィルターチップ
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: [
+                            // 所要時間
+                            FilterChip(
+                              label: Text('$_maxTravelTime分以内'),
+                              onSelected: (_) => _showTimeDialog(),
+                              selected: true,
+                              backgroundColor: Colors.white.withOpacity(0.9),
+                              selectedColor: Colors.white,
+                              checkmarkColor: Theme.of(context).primaryColor,
+                            ),
+
+                            // 交通手段
+                            FilterChip(
+                              label: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(_selectedTransportMode.icon, size: 16),
+                                  const SizedBox(width: 4),
+                                  Text(_selectedTransportMode.label),
+                                ],
+                              ),
+                              onSelected: (_) => _showTransportDialog(),
+                              selected: true,
+                              backgroundColor: Colors.white.withOpacity(0.9),
+                              selectedColor: Colors.white,
+                              checkmarkColor: Theme.of(context).primaryColor,
+                            ),
+
+                            // 現在地から
+                            FilterChip(
+                              label: const Text('現在地から'),
+                              selected: _useCurrentLocation,
+                              onSelected: (value) {
+                                setState(() => _useCurrentLocation = value);
+                              },
+                              backgroundColor: Colors.white.withOpacity(0.9),
+                              selectedColor: Colors.white,
+                              checkmarkColor: Theme.of(context).primaryColor,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
-          
+
           // 検索結果
-          Expanded(
-            child: _filteredResults.isEmpty
-                ? const Center(
-                    child: Text(
-                      '検索条件に一致するプランがありません',
-                      style: TextStyle(color: Colors.grey),
+          if (_filteredItineraries.isEmpty)
+            const SliverFillRemaining(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search_off, size: 64, color: Colors.grey),
+                    SizedBox(height: 16),
+                    Text(
+                      '条件に合うプランが見つかりません',
+                      style: TextStyle(fontSize: 16, color: Colors.grey),
                     ),
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _filteredResults.length,
-                    itemBuilder: (context, index) {
-                      final result = _filteredResults[index];
-                      return _buildResultCard(result);
-                    },
-                  ),
-          ),
+                  ],
+                ),
+              ),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.all(16),
+              sliver: SliverList(
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  final itinerary = _filteredItineraries[index];
+                  return _SearchResultCard(
+                    itinerary: itinerary,
+                    estimatedTime: _calculateEstimatedTime(itinerary),
+                    transportMode: _selectedTransportMode,
+                  );
+                }, childCount: _filteredItineraries.length),
+              ),
+            ),
         ],
       ),
     );
   }
 
-  Widget _buildTimeFilterChip(int minutes, String label) {
-    final isSelected = _selectedTimeFilter == minutes;
-    return FilterChip(
-      label: Text(label),
-      selected: isSelected,
-      onSelected: (_) {
-        setState(() => _selectedTimeFilter = minutes);
+  void _showTimeDialog() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                '移動時間の上限',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              ...[15, 30, 45, 60, 90, 120].map((minutes) {
+                return ListTile(
+                  title: Text('$minutes分以内'),
+                  leading: Radio<int>(
+                    value: minutes,
+                    groupValue: _maxTravelTime,
+                    onChanged: (value) {
+                      setState(() => _maxTravelTime = value!);
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
       },
-      selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
     );
   }
 
-  Widget _buildTransportChip(String transport, IconData icon) {
-    final isSelected = _selectedTransport == transport;
-    return FilterChip(
-      avatar: Icon(icon, size: 18),
-      label: Text(transport),
-      selected: isSelected,
-      onSelected: (_) {
-        setState(() => _selectedTransport = transport);
+  void _showTransportDialog() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text(
+                '交通手段',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              ...TransportMode.values.map((mode) {
+                return ListTile(
+                  title: Text(mode.label),
+                  leading: Icon(mode.icon),
+                  trailing: Radio<TransportMode>(
+                    value: mode,
+                    groupValue: _selectedTransportMode,
+                    onChanged: (value) {
+                      setState(() => _selectedTransportMode = value!);
+                      Navigator.pop(context);
+                    },
+                  ),
+                );
+              }),
+            ],
+          ),
+        );
       },
-      selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
     );
   }
 
-  Widget _buildResultCard(Map<String, dynamic> result) {
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+}
+
+class _SearchResultCard extends StatelessWidget {
+  final Itinerary itinerary;
+  final int estimatedTime;
+  final TransportMode transportMode;
+
+  const _SearchResultCard({
+    required this.itinerary,
+    required this.estimatedTime,
+    required this.transportMode,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final spotNames = itinerary.points.map((p) => p.spot.name).toList();
+    final representativeImage =
+        itinerary.representativeImageUrl ??
+        (itinerary.points.isNotEmpty &&
+                itinerary.points.first.spot.photos.isNotEmpty
+            ? itinerary.points.first.spot.photos.first
+            : null);
+
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
-      elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
       child: InkWell(
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('プラン詳細画面は準備中です')),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => ItineraryDetailScreen(itinerary: itinerary),
+            ),
           );
         },
         borderRadius: BorderRadius.circular(12),
@@ -182,39 +336,37 @@ class _SearchScreenState extends State<SearchScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // 画像
-            if (result['image'] != null)
+            if (representativeImage != null)
               ClipRRect(
                 borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(12),
                 ),
-                child: Image.network(
-                  result['image'],
-                  height: 150,
+                child: OptimizedNetworkImage(
+                  imageUrl: representativeImage,
+                  height: 160,
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    height: 150,
-                    color: Colors.grey[300],
-                    child: const Icon(Icons.image, size: 50),
-                  ),
                 ),
               ),
-            
-            // コンテンツ
+
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // タイトルと所要時間
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
                         child: Text(
-                          result['title'],
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          itinerary.title.isNotEmpty
+                              ? itinerary.title
+                              : 'タイトル未設定',
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Container(
@@ -230,13 +382,13 @@ class _SearchScreenState extends State<SearchScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(
-                              _getTransportIcon(result['transport']),
+                              transportMode.icon,
                               size: 16,
                               color: Colors.teal[700],
                             ),
                             const SizedBox(width: 4),
                             Text(
-                              '${result['duration']}分',
+                              '約$estimatedTime分',
                               style: TextStyle(
                                 color: Colors.teal[700],
                                 fontWeight: FontWeight.bold,
@@ -248,24 +400,39 @@ class _SearchScreenState extends State<SearchScreen> {
                     ],
                   ),
                   const SizedBox(height: 8),
+
+                  // スポット名
                   Text(
-                    result['description'],
-                    style: Theme.of(context).textTheme.bodyMedium,
-                    maxLines: 2,
+                    spotNames.join(' → '),
+                    style: TextStyle(color: Colors.grey[600], fontSize: 14),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 12),
+
+                  // タグとスポット数
                   Row(
                     children: [
                       Icon(Icons.place, size: 16, color: Colors.grey[600]),
                       const SizedBox(width: 4),
                       Text(
-                        '${result['spotCount']}スポット',
-                        style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 14,
-                        ),
+                        '${itinerary.points.length}スポット',
+                        style: TextStyle(color: Colors.grey[600], fontSize: 14),
                       ),
+                      const SizedBox(width: 16),
+                      if (itinerary.tags.isNotEmpty) ...[
+                        Expanded(
+                          child: Text(
+                            itinerary.tags.map((tag) => '#$tag').join(' '),
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 14,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ],
@@ -275,26 +442,5 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
     );
-  }
-
-  IconData _getTransportIcon(String transport) {
-    switch (transport) {
-      case '電車':
-        return Icons.train;
-      case '徒歩':
-        return Icons.directions_walk;
-      case '車':
-        return Icons.directions_car;
-      case 'バス':
-        return Icons.directions_bus;
-      default:
-        return Icons.directions;
-    }
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 }

@@ -6,6 +6,8 @@ A cross-platform travel planning application built with Flutter, supporting mult
 
 - 🚀 **[Quick Start Guide](docs/QUICK_START.md)** - 5分で始める
 - 🔧 **[Setup Guide](docs/SETUP_GUIDE.md)** - OS別詳細セットアップ手順
+- 🔥 **[Firebase Deployment](docs/FIREBASE_DEPLOYMENT.md)** - CI/CDとデプロイ設定
+- 🎨 **[Wireframe Guide](docs/WIREFRAME_GUIDE.md)** - デザインガイド
 
 ## 🚀 Quick Start
 
@@ -182,12 +184,24 @@ Run `flutter doctor` to check for platform-specific configuration issues.
 - ✅ Freezed models with JSON serialization
 - ✅ Material Design 3 UI
 - ✅ Responsive font rendering across platforms
+- ✅ Firebase Hosting CI/CD integration
+- ✅ Preview deployments for Pull Requests
 
 ## 🔄 Development Workflow
 
+### Local Development
 1. **Setup**: Run `./scripts/setup.sh` once
 2. **Development**: Use `./run_flutter_desktop.sh` or `./run_flutter_web.sh`
 3. **Testing**: Run `flutter test` before committing
 4. **Building**: Use `flutter build <platform>` for releases
+
+### CI/CD Workflow
+1. **Feature Development**: Create feature branch from `develop`
+2. **Preview Deploy**: Push to `develop` → Auto-deploy to Firebase Preview
+3. **Production Deploy**: PR to `master` → Review → Merge → Auto-deploy
+
+### 🌐 Deployment URLs
+- **Production**: https://travelet-app.web.app
+- **Preview**: https://travelet-app--develop-{number}.web.app (7 days)
 
 This setup ensures consistent development experience regardless of your operating system or environment.
