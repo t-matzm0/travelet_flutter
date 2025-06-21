@@ -46,6 +46,8 @@ jobs:
 
       - name: Create release tag
         run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
           VERSION=$(date +%Y.%m.%d-%H%M%S)
           git tag -a "release-$VERSION" -m "Production release $VERSION"
           git push origin "release-$VERSION"
