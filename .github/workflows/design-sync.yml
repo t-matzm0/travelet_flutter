@@ -45,29 +45,33 @@ jobs:
         with:
           script: |
             const latestDate = process.env.LATEST_DESIGN_DATE || '記録なし';
+            const bodyText = [
+              '## デザインアセット更新の確認',
+              '',
+              '最新のデザイン変更から1週間以上経過しています。',
+              '',
+              '### 確認事項',
+              '- [ ] Figmaファイルに新しい変更があるか確認',
+              '- [ ] 必要に応じてワイヤーフレーム・アセットを更新',
+              '- [ ] `docs/DESIGN_CHANGELOG.md` を更新',
+              '',
+              '### 最新の記録',
+              `最終更新日: ${latestDate}`,
+              '',
+              '### アクション',
+              '1. Figmaファイルを確認: [デザインファイル](FIGMA_URL)',
+              '2. 変更がある場合は design/update-YYYYMMDD ブランチで更新',
+              '3. このIssueをクローズ',
+              '',
+              '---',
+              '*このIssueは自動生成されました*'
+            ].join('\n');
+            
             const issue = await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: '🎨 デザインアセット更新確認',
-              body: `## デザインアセット更新の確認
-
-最新のデザイン変更から1週間以上経過しています。
-
-### 確認事項
-- [ ] Figmaファイルに新しい変更があるか確認
-- [ ] 必要に応じてワイヤーフレーム・アセットを更新
-- [ ] \`docs/DESIGN_CHANGELOG.md\` を更新
-
-### 最新の記録
-最終更新日: ${latestDate}
-
-### アクション
-1. Figmaファイルを確認: [デザインファイル](FIGMA_URL)
-2. 変更がある場合は design/update-YYYYMMDD ブランチで更新
-3. このIssueをクローズ
-
----
-*このIssueは自動生成されました*`,
+              body: bodyText,
               labels: ['design', 'maintenance']
             });
             
